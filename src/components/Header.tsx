@@ -41,21 +41,24 @@ export default function Header() {
       }`}
     >
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
-        {/* Logo */}
+        {/* Logo mark + wordmark */}
         <a
           href="/"
           aria-label="Bandesha Empire — home"
-          className="flex items-center rounded-md transition-opacity hover:opacity-90"
+          className="flex items-center gap-2.5 transition-opacity hover:opacity-90"
         >
           <Image
-            src="/bandesha-empire-logo.png"
-            alt="Bandesha Empire"
-            width={520}
-            height={177}
+            src="/bandesha-empire-mark.png"
+            alt=""
+            width={234}
+            height={240}
             priority
             unoptimized
-            className="h-10 w-auto sm:h-11"
+            className="h-9 w-auto sm:h-10"
           />
+          <span className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
+            Bandesha Empire
+          </span>
         </a>
 
         {/* Desktop navigation */}

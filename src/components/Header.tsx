@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const NAV_LINKS = [
@@ -40,15 +41,21 @@ export default function Header() {
       }`}
     >
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
-        {/* Logo / wordmark */}
+        {/* Logo */}
         <a
           href="/"
-          className="flex items-center text-lg font-semibold tracking-tight text-foreground"
+          aria-label="Bandesha Empire — home"
+          className="flex items-center rounded-md transition-opacity hover:opacity-90"
         >
-          Bandesha Empire
-          <span aria-hidden="true" className="ml-1 text-accent">
-            •
-          </span>
+          <Image
+            src="/bandesha-empire-logo.png"
+            alt="Bandesha Empire"
+            width={520}
+            height={177}
+            priority
+            unoptimized
+            className="h-10 w-auto sm:h-11"
+          />
         </a>
 
         {/* Desktop navigation */}

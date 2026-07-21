@@ -247,6 +247,28 @@ body {
     animation: bld-scan-sweep 1.4s cubic-bezier(0.22, 1, 0.36, 1) 1 both;
     animation-delay: 3.9s;
   }
+
+  /* ---- services: content reveal ---- */
+  .svc-reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .svc-in-view .svc-reveal {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- services: hover micro-interactions (not entrance motion, always active) ---- */
+.svc-link-arrow {
+  transition: transform 0.2s ease;
+}
+.svc-link:hover .svc-link-arrow {
+  transform: translateX(3px);
 }
 
 @keyframes bld-datapath-flow {

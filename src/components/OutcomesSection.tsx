@@ -9,25 +9,21 @@ const OUTCOMES = [
     kicker: "Experience",
     title: "Clearer customer journeys",
     body: "Visitors move from first impression to action without friction, confusion or dead ends.",
-    offset: "lg:mt-0",
   },
   {
     kicker: "Operations",
     title: "Faster internal handoffs",
     body: "Information moves between tools automatically, so work stops stalling on manual steps.",
-    offset: "lg:mt-10",
   },
   {
     kicker: "Engineering",
     title: "Maintainable digital products",
     body: "Clean structure and sensible tooling keep changes quick instead of risky.",
-    offset: "lg:mt-20",
   },
   {
     kicker: "Scale",
     title: "Room to grow",
     body: "New features and higher demand fit the existing foundation rather than forcing a rebuild.",
-    offset: "lg:mt-8",
     final: true,
   },
 ];
@@ -66,12 +62,12 @@ export default function OutcomesSection() {
             </p>
           </div>
 
-          {/* Stepped outcome band */}
-          <div className="mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+          {/* Aligned outcome index — one top rule, columns divided by hairlines */}
+          <div className="mt-16 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 lg:border-t lg:border-border lg:pt-10">
             {OUTCOMES.map((o, i) => (
               <div
                 key={o.title}
-                className={`rv border-t border-border pt-5 ${o.offset}`}
+                className="rv border-t border-border pt-5 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0 lg:first:border-l-0 lg:first:pl-0"
                 style={delayStyle(240 + i * 90)}
               >
                 <span

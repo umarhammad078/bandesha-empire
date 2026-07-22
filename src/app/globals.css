@@ -9,6 +9,9 @@
   --accent: #5ca956;
   --accent-dark: #3f8a3f;
   --accent-tint: #eaf6e8;
+  /* Deep green reserved for solid buttons with white labels — meets WCAG AA
+     (~5:1 on white text) where the lighter brand greens do not. */
+  --accent-deep: #2f7d33;
 }
 
 @theme inline {
@@ -20,6 +23,7 @@
   --color-accent: var(--accent);
   --color-accent-dark: var(--accent-dark);
   --color-accent-tint: var(--accent-tint);
+  --color-accent-deep: var(--accent-deep);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -577,26 +581,5 @@ footer[id] {
 @keyframes sys-flow-move {
   to {
     stroke-dashoffset: -0.24;
-  }
-}
-
-/* =========================================================================
-   Section 8 — capabilities marquee (slow, pauses on hover, static for RM)
-   ========================================================================= */
-.cap-track {
-  display: flex;
-  width: max-content;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .cap-track {
-    animation: cap-scroll 42s linear infinite;
-  }
-  .cap-marquee:hover .cap-track {
-    animation-play-state: paused;
-  }
-}
-@keyframes cap-scroll {
-  to {
-    transform: translateX(-50%);
   }
 }

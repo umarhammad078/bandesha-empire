@@ -112,7 +112,7 @@ export default function HeroSection() {
           >
             <a
               href="#contact"
-              className="inline-flex items-center justify-center rounded-lg bg-accent px-6 py-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-accent-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-dark focus-visible:ring-offset-2"
+              className="inline-flex items-center justify-center rounded-lg bg-accent-deep px-6 py-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-accent-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-dark focus-visible:ring-offset-2"
             >
               Start a Project
             </a>

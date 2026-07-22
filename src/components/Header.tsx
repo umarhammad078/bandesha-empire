@@ -85,7 +85,7 @@ export default function Header() {
         {/* Desktop CTA */}
         <a
           href="#contact"
-          className="hidden rounded-full bg-accent-dark px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-accent md:inline-flex"
+          className="hidden rounded-full bg-accent-deep px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-accent-dark md:inline-flex"
         >
           Start a Project
         </a>
@@ -157,7 +157,7 @@ export default function Header() {
             <a
               href="#contact"
               onClick={() => setMenuOpen(false)}
-              className="mt-2 inline-flex items-center justify-center rounded-full bg-accent-dark px-4 py-3 text-base font-medium text-white shadow-sm transition-colors hover:bg-accent"
+              className="mt-2 inline-flex items-center justify-center rounded-full bg-accent-deep px-4 py-3 text-base font-medium text-white shadow-sm transition-colors hover:bg-accent-dark"
             >
               Start a Project
             </a>

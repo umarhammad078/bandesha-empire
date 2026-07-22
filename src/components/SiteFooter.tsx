@@ -63,7 +63,7 @@ export default function SiteFooter() {
             © {year} Bandesha Empire. All rights reserved.
           </p>
           <p className="text-xs text-muted">
-            Built with intention—purpose-built systems, long-term thinking.
+            Built with intention. Maintained with care.
           </p>
         </div>
       </div>

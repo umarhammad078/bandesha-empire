@@ -56,13 +56,13 @@ function Node({
         r={6}
         className={status ? "sys-status-node" : undefined}
         style={status ? delayStyle(1600) : undefined}
-        fill={status ? undefined : hub ? "var(--accent-dark)" : "var(--foreground)"}
+        fill={status ? undefined : "var(--foreground)"}
       />
       <text
         x={x}
         y={labelY}
         textAnchor="middle"
-        fontSize={18}
+        fontSize={17}
         fontWeight={600}
         fill="var(--foreground)"
       >
@@ -86,7 +86,7 @@ export default function SystemMapSection() {
               className="rv inline-flex items-center text-xs font-semibold uppercase tracking-[0.16em] text-accent-dark"
               style={delayStyle(0)}
             >
-              Connected Digital Infrastructure
+              One Connected System
             </span>
             <h2
               id="system-heading"
@@ -107,7 +107,7 @@ export default function SystemMapSection() {
 
           {/* Systems map panel */}
           <div
-            className="rv relative mt-12 border border-border bg-white p-5 sm:p-8"
+            className="rv relative mt-12 border border-border bg-white px-5 py-8 sm:px-10 sm:py-10"
             style={delayStyle(220)}
           >
             <span
@@ -116,17 +116,9 @@ export default function SystemMapSection() {
             >
               System Architecture / 01—05
             </span>
-            <span
-              className="pointer-events-none absolute -right-1.5 -top-1.5 hidden h-3 w-3 border-r border-t border-border sm:block"
-              aria-hidden="true"
-            />
-            <span
-              className="pointer-events-none absolute -bottom-1.5 -left-1.5 hidden h-3 w-3 border-b border-l border-border sm:block"
-              aria-hidden="true"
-            />
 
             <svg
-              viewBox="0 0 660 340"
+              viewBox="0 0 660 300"
               className="h-auto w-full"
               role="img"
               aria-label="A connected system architecture: the website and digital experience link through an automation engine and integration layer to a data and infrastructure core, with an ongoing optimization and support node."
@@ -137,20 +129,20 @@ export default function SystemMapSection() {
                 style={delayStyle(0)}
                 stroke="var(--border)"
                 strokeWidth={1}
-                opacity={0.55}
+                opacity={0.5}
               >
-                <line x1="110" y1="30" x2="110" y2="310" />
-                <line x1="220" y1="30" x2="220" y2="310" />
-                <line x1="330" y1="30" x2="330" y2="310" />
-                <line x1="440" y1="30" x2="440" y2="310" />
-                <line x1="550" y1="30" x2="550" y2="310" />
-                <line x1="40" y1="95" x2="620" y2="95" />
-                <line x1="40" y1="245" x2="620" y2="245" />
+                <line x1="110" y1="40" x2="110" y2="260" />
+                <line x1="220" y1="40" x2="220" y2="260" />
+                <line x1="330" y1="40" x2="330" y2="260" />
+                <line x1="440" y1="40" x2="440" y2="260" />
+                <line x1="550" y1="40" x2="550" y2="260" />
+                <line x1="40" y1="80" x2="620" y2="80" />
+                <line x1="40" y1="220" x2="620" y2="220" />
               </g>
 
               {/* backbone spine */}
               <path
-                d="M60 170 H600"
+                d="M60 150 H600"
                 fill="none"
                 stroke="var(--border)"
                 strokeWidth={2}
@@ -161,7 +153,7 @@ export default function SystemMapSection() {
 
               {/* branch stubs to raised / lowered nodes */}
               <path
-                d="M215 170 V108"
+                d="M220 150 V92"
                 fill="none"
                 stroke="var(--border)"
                 strokeWidth={1.5}
@@ -170,7 +162,7 @@ export default function SystemMapSection() {
                 style={delayStyle(560)}
               />
               <path
-                d="M460 170 V236"
+                d="M460 150 V208"
                 fill="none"
                 stroke="var(--border)"
                 strokeWidth={1.5}
@@ -181,7 +173,7 @@ export default function SystemMapSection() {
 
               {/* slow green data pulse along the settled spine */}
               <path
-                d="M60 170 H600"
+                d="M60 150 H600"
                 fill="none"
                 stroke="var(--accent)"
                 strokeWidth={2}
@@ -191,34 +183,34 @@ export default function SystemMapSection() {
               />
 
               {/* nodes */}
-              <Node x={90} y={170} label="Website" labelY={200} delay={420} />
+              <Node x={95} y={150} label="Website" labelY={180} delay={420} />
               <Node
-                x={215}
-                y={95}
+                x={220}
+                y={80}
                 label="Automation"
-                labelY={78}
+                labelY={62}
                 delay={520}
               />
               <Node
                 x={340}
-                y={170}
+                y={150}
                 label="Integration"
-                labelY={200}
+                labelY={180}
                 delay={620}
                 hub
               />
               <Node
                 x={460}
-                y={250}
+                y={220}
                 label="Data & Infra"
-                labelY={280}
+                labelY={250}
                 delay={720}
               />
               <Node
                 x={600}
-                y={170}
+                y={150}
                 label="Support"
-                labelY={200}
+                labelY={180}
                 delay={820}
                 status
               />

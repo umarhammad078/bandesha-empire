@@ -73,8 +73,7 @@ export default function AboutSection() {
                 style={delayStyle(100)}
               >
                 <p className="text-sm font-medium text-foreground">
-                  Purpose-built systems. Responsible execution. Long-term
-                  thinking.
+                  Considered decisions. Honest communication. Work that lasts.
                 </p>
               </div>
             </div>

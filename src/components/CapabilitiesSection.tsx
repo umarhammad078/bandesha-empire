@@ -4,38 +4,30 @@ function delayStyle(ms: number): React.CSSProperties {
   return { "--reveal-delay": `${ms}ms` } as React.CSSProperties;
 }
 
-const CAPABILITIES = [
-  "Next.js",
-  "React",
-  "TypeScript",
-  "Tailwind CSS",
-  "Supabase",
-  "Vercel",
-  "API Integrations",
-  "AI Workflows",
-  "Automation Systems",
-  "Responsive Interfaces",
-  "Performance Optimization",
-  "Accessibility",
+const GROUPS = [
+  {
+    label: "Frameworks",
+    items: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+  },
+  {
+    label: "Data & Infrastructure",
+    items: ["Supabase", "Vercel", "API Integrations"],
+  },
+  {
+    label: "Systems",
+    items: ["AI Workflows", "Automation", "Custom Dashboards"],
+  },
+  {
+    label: "Practices",
+    items: ["Performance", "Accessibility", "Responsive Design"],
+  },
 ];
-
-function Chip({ label }: { label: string }) {
-  return (
-    <span className="inline-flex shrink-0 items-center gap-2 border border-border bg-white px-4 py-2 text-sm font-medium text-foreground">
-      <span
-        className="h-1.5 w-1.5 rounded-full bg-accent"
-        aria-hidden="true"
-      />
-      {label}
-    </span>
-  );
-}
 
 export default function CapabilitiesSection() {
   return (
     <section
       aria-labelledby="capabilities-heading"
-      className="w-full overflow-hidden bg-surface"
+      className="w-full bg-surface"
     >
       <div className="mx-auto max-w-[1400px] px-6 py-24 lg:py-32">
         <Reveal>
@@ -63,40 +55,35 @@ export default function CapabilitiesSection() {
               piece for the job in front of it—never for novelty.
             </p>
           </div>
-        </Reveal>
 
-        {/* Technical marquee index */}
-        <div
-          className="cap-marquee relative mt-14"
-          aria-label="Technologies and capabilities"
-        >
-          {/* edge fades */}
+          {/* Capability specification matrix */}
           <div
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-surface to-transparent"
-            aria-hidden="true"
-          />
-          <div
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-surface to-transparent"
-            aria-hidden="true"
-          />
-
-          <div className="cap-track gap-3">
-            <ul className="flex shrink-0 gap-3 pr-3">
-              {CAPABILITIES.map((c) => (
-                <li key={c}>
-                  <Chip label={c} />
-                </li>
-              ))}
-            </ul>
-            <ul className="flex shrink-0 gap-3 pr-3" aria-hidden="true">
-              {CAPABILITIES.map((c) => (
-                <li key={`dup-${c}`}>
-                  <Chip label={c} />
-                </li>
-              ))}
-            </ul>
+            className="rv mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-sm border border-border bg-border sm:grid-cols-2 lg:grid-cols-4"
+            style={delayStyle(240)}
+          >
+            {GROUPS.map((group) => (
+              <div key={group.label} className="bg-white p-6 sm:p-7">
+                <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
+                  {group.label}
+                </h3>
+                <ul className="mt-4 space-y-2.5">
+                  {group.items.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-center gap-2.5 text-sm font-medium text-foreground"
+                    >
+                      <span
+                        className="h-1 w-1 shrink-0 rounded-full bg-accent"
+                        aria-hidden="true"
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

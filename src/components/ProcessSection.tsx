@@ -45,7 +45,11 @@ function RailNode({ delay, final = false }: { delay: number; final?: boolean }) 
 
 export default function ProcessSection() {
   return (
-    <section id="process" className="w-full bg-surface">
+    <section
+      id="process"
+      aria-labelledby="process-heading"
+      className="w-full bg-surface"
+    >
       <div className="mx-auto max-w-[1400px] px-6 py-24 lg:py-32">
         <ProcessReveal>
           <div className="grid gap-16 lg:grid-cols-[35fr_65fr] lg:items-start">
@@ -56,7 +60,10 @@ export default function ProcessSection() {
                   How We Build
                 </span>
 
-                <h2 className="mt-5 text-[clamp(1.9rem,1rem+2.4vw,2.75rem)] font-bold leading-[1.15] tracking-tight text-foreground">
+                <h2
+                  id="process-heading"
+                  className="mt-5 text-[clamp(1.9rem,1rem+2.4vw,2.75rem)] font-bold leading-[1.15] tracking-tight text-foreground"
+                >
                   From first signal to a system that keeps working.
                 </h2>
 

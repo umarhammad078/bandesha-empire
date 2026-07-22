@@ -108,7 +108,11 @@ export default function ServicesSection() {
   const [featured, web, integrations, support] = SERVICES;
 
   return (
-    <section id="services" className="w-full bg-background">
+    <section
+      id="services"
+      aria-labelledby="services-heading"
+      className="w-full bg-background"
+    >
       <div className="mx-auto max-w-[1400px] px-6 py-24 lg:py-32">
         <ServicesReveal>
           <div className="grid gap-16 lg:grid-cols-[38fr_62fr] lg:items-start">
@@ -120,7 +124,10 @@ export default function ServicesSection() {
                   What We Build
                 </span>
 
-                <h2 className="mt-5 text-[clamp(1.9rem,1rem+2.4vw,2.75rem)] font-bold leading-[1.15] tracking-tight text-foreground">
+                <h2
+                  id="services-heading"
+                  className="mt-5 text-[clamp(1.9rem,1rem+2.4vw,2.75rem)] font-bold leading-[1.15] tracking-tight text-foreground"
+                >
                   The system behind a well-run business.
                 </h2>
 

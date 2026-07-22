@@ -41,7 +41,7 @@ export default function Header() {
           : "border-border bg-white"
       }`}
     >
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
+      <div className="mx-auto flex h-16 w-full max-w-[1400px] items-center justify-between px-6">
         {/* Logo mark + wordmark */}
         <Link
           href="/"
@@ -142,7 +142,7 @@ export default function Header() {
         >
           <nav
             aria-label="Mobile"
-            className="mx-auto flex w-full max-w-6xl flex-col gap-1 px-6 py-4"
+            className="mx-auto flex w-full max-w-[1400px] flex-col gap-1 px-6 py-4"
           >
             {NAV_LINKS.map((link) => (
               <a

@@ -328,6 +328,56 @@ body {
     background-color: var(--accent);
     transition-delay: calc(var(--reveal-delay, 0s) + 0.25s);
   }
+
+  /* ---- about: content + frame reveal ---- */
+  .abt-reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .abt-in-view .abt-reveal {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---- about: registration line drawing downward through the numbers ---- */
+  .abt-reg-line {
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .abt-in-view .abt-reg-line {
+    transform: scaleY(1);
+  }
+
+  /* ---- about: principle rows revealing one by one ---- */
+  .abt-row {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .abt-in-view .abt-row {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---- about: final completion node activates last ---- */
+  .abt-node-final {
+    background-color: var(--border);
+    transition: background-color 0.3s ease;
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .abt-in-view .abt-node-final {
+    background-color: var(--accent);
+    transition-delay: calc(var(--reveal-delay, 0s) + 0.25s);
+  }
 }
 
 /* ---- services: hover micro-interactions (not entrance motion, always active) ---- */
@@ -371,5 +421,182 @@ body {
   100% {
     transform: translateY(-360px);
     opacity: 0;
+  }
+}
+
+/* =========================================================================
+   Navigation / scroll behaviour
+   ========================================================================= */
+
+/* Smooth in-page navigation, disabled for reduced-motion users. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Keep sticky-header (h-16 = 4rem) from covering section headings on anchor
+   navigation. Always applied — not motion related. */
+section[id],
+footer[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* =========================================================================
+   Shared reveal system for the lower homepage sections
+   (System Map, Outcomes, Capabilities, CTA, Contact).
+   Every hidden/transformed initial state lives inside the no-preference
+   query, so reduced-motion users always get the finished layout instantly.
+   ========================================================================= */
+
+/* Resting (final) state for the green completion dots — declared before the
+   motion query so reduced-motion users see the finished green immediately,
+   while motion users get the gray→green activation defined inside the query. */
+.rv-dot-final {
+  background-color: var(--accent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* generic content lift */
+  .rv {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .is-in .rv {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* plain fade (grids, faint structure) */
+  .rv-fade {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .is-in .rv-fade {
+    opacity: 1;
+  }
+
+  /* vertical line drawing downward */
+  .rv-line-y {
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .is-in .rv-line-y {
+    transform: scaleY(1);
+  }
+
+  /* horizontal line drawing left → right */
+  .rv-line-x {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .is-in .rv-line-x {
+    transform: scaleX(1);
+  }
+
+  /* small node pop-in (HTML dots) */
+  .rv-node {
+    opacity: 0;
+    transform: scale(0.5);
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s ease;
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .is-in .rv-node {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* SVG stroke draw — paths carry pathLength="1" so this is length-agnostic */
+  .rv-draw {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .is-in .rv-draw {
+    stroke-dashoffset: 0;
+  }
+
+  /* HTML completion dot: gray → green, activates last */
+  .rv-dot-final {
+    background-color: var(--border);
+    transition: background-color 0.3s ease;
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .is-in .rv-dot-final {
+    background-color: var(--accent);
+  }
+}
+
+/* =========================================================================
+   Section 6 — signature digital-system map
+   ========================================================================= */
+
+/* SVG node fill-in appears with the shared .rv-node timing via opacity;
+   the final status node also shifts to green. Its resting (final) fill is
+   green so reduced-motion users see the completed state; motion users start
+   from gray and transition to green on reveal. */
+.sys-status-node {
+  fill: var(--accent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sys-status-node {
+    fill: var(--border);
+    transition: fill 0.4s ease;
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .is-in .sys-status-node {
+    fill: var(--accent);
+  }
+
+  /* subtle, slow data pulse along the connectors once the system settles */
+  .sys-flow {
+    stroke-dasharray: 0.03 0.09;
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  .is-in .sys-flow {
+    opacity: 1;
+    animation: sys-flow-move 3s linear infinite;
+    animation-delay: 1.9s;
+    transition: opacity 0.5s ease 1.9s;
+  }
+}
+
+@keyframes sys-flow-move {
+  to {
+    stroke-dashoffset: -0.24;
+  }
+}
+
+/* =========================================================================
+   Section 8 — capabilities marquee (slow, pauses on hover, static for RM)
+   ========================================================================= */
+.cap-track {
+  display: flex;
+  width: max-content;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cap-track {
+    animation: cap-scroll 42s linear infinite;
+  }
+  .cap-marquee:hover .cap-track {
+    animation-play-state: paused;
+  }
+}
+@keyframes cap-scroll {
+  to {
+    transform: translateX(-50%);
   }
 }

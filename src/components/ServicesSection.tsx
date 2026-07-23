@@ -4,6 +4,10 @@ function delayStyle(ms: number): React.CSSProperties {
   return { "--reveal-delay": `${ms}ms` } as React.CSSProperties;
 }
 
+function currentStyle(ms: number): React.CSSProperties {
+  return { "--current-delay": `${ms}ms` } as React.CSSProperties;
+}
+
 function TickIcon() {
   return (
     <svg
@@ -77,6 +81,7 @@ const SERVICES = [
   {
     number: "01",
     title: "AI Automation",
+    signal: "Automate the work",
     description:
       "Connect the tools you already use and automate repetitive work such as lead intake, approvals, data hand-offs and internal workflows—so your team can focus on decisions that require real attention.",
     labels: ["Workflow Automation", "AI-Assisted Tools", "System Integrations"],
@@ -84,6 +89,7 @@ const SERVICES = [
   {
     number: "02",
     title: "Web Development",
+    signal: "Build the experience",
     description:
       "Custom business websites and web applications built for speed, responsive performance and long-term maintainability—not disposable templates that need constant rebuilding.",
     labels: ["Business Websites", "Web Applications", "Responsive Development"],
@@ -91,6 +97,7 @@ const SERVICES = [
   {
     number: "03",
     title: "Custom Integrations",
+    signal: "Connect every tool",
     description:
       "Connect APIs, databases and third-party platforms into dependable dashboards and internal tools your team can use every day.",
     labels: ["API Integrations", "Supabase", "Business Systems"],
@@ -98,6 +105,7 @@ const SERVICES = [
   {
     number: "04",
     title: "Digital Products & Support",
+    signal: "Improve continuously",
     description:
       "Continue improving after launch with feature development, maintenance, performance optimization and dependable technical support.",
     labels: ["Feature Development", "Maintenance", "Optimization"],
@@ -116,49 +124,91 @@ export default function ServicesSection() {
       <div className="mx-auto max-w-[1400px] px-6 py-24 lg:py-32">
         <ServicesReveal>
           <div className="grid gap-16 lg:grid-cols-[38fr_62fr] lg:items-start">
-            {/* Left column — intro + system index */}
-            <div className="lg:sticky lg:top-28">
-              <div className="svc-reveal" style={delayStyle(0)}>
-                <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-accent-dark">
-                  <TickIcon />
-                  What We Build
-                </span>
+            {/* Left column — sticky capability control panel */}
+            <div className="lg:sticky lg:top-24">
+              <div
+                className="svc-overview-panel svc-reveal relative overflow-hidden rounded-2xl border border-border bg-white p-6 sm:p-8 lg:p-5 xl:p-8"
+                style={delayStyle(0)}
+              >
+                <div className="relative z-10">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <span className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-dark">
+                      <TickIcon />
+                      What We Build
+                    </span>
+                    <span className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-white/80 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-accent-dark">
+                      <span
+                        className="svc-overview-beacon h-1.5 w-1.5 rounded-full bg-accent"
+                        aria-hidden="true"
+                      />
+                      System live
+                    </span>
+                  </div>
 
-                <h2
-                  id="services-heading"
-                  className="mt-5 text-[clamp(1.9rem,1rem+2.4vw,2.75rem)] font-bold leading-[1.15] tracking-tight text-foreground"
-                >
-                  The system behind a well-run business.
-                </h2>
+                  <h2
+                    id="services-heading"
+                    className="mt-6 max-w-md text-[clamp(1.9rem,1rem+2.25vw,2.65rem)] font-bold leading-[1.08] tracking-tight text-foreground lg:mt-5 lg:text-[2rem] xl:mt-6 xl:text-[2.65rem]"
+                  >
+                    Four capabilities. One connected foundation.
+                  </h2>
 
-                <p className="mt-5 max-w-md text-base leading-relaxed text-muted">
-                  Websites, automations and internal systems work best when
-                  they operate as one connected foundation. Bandesha Empire
-                  designs each layer around the way your business actually
-                  works, so the result feels intentional, reliable and
-                  easier to grow.
-                </p>
+                  <p className="mt-5 max-w-md text-[15px] leading-relaxed text-muted lg:mt-4 lg:text-sm xl:mt-5 xl:text-[15px]">
+                    Each layer is shaped around the way your business actually
+                    works—then connected into one reliable system that is
+                    easier to operate, scale and improve.
+                  </p>
 
-                <div className="mt-6 h-0.5 w-8 bg-accent" aria-hidden="true" />
-
-                <ol
-                  className="mt-8 space-y-3 border-l border-border pl-4"
-                  aria-hidden="true"
-                >
-                  {SERVICES.map((service, i) => (
-                    <li
-                      key={service.number}
-                      className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.08em] text-muted"
-                    >
-                      {i === 0 && (
-                        <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                      )}
-                      <span className={i === 0 ? "text-foreground" : ""}>
-                        {service.number} — {service.title}
+                  <div className="mt-7 border-y border-border/80 py-4 lg:mt-5 lg:py-3 xl:mt-7 xl:py-4">
+                    <div>
+                      <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+                        Service architecture
                       </span>
-                    </li>
-                  ))}
-                </ol>
+                      <span className="mt-1 block text-sm font-semibold text-foreground">
+                        Built as one system
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="relative mt-5 lg:mt-4 xl:mt-5">
+                    <ol className="relative space-y-2 lg:space-y-1 xl:space-y-2">
+                      {SERVICES.map((service) => (
+                        <li
+                          key={service.number}
+                          className="svc-overview-item group relative grid grid-cols-[2.5rem_minmax(0,1fr)_auto] items-center gap-3 rounded-xl border border-transparent bg-white/35 px-3 py-3 lg:py-2 xl:py-3"
+                        >
+                          <div className="flex justify-center">
+                            <span
+                              className="svc-overview-node relative z-10 h-2.5 w-2.5 rounded-full"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <div className="min-w-0">
+                            <span className="text-sm font-semibold leading-tight text-foreground lg:text-[13px] xl:text-sm">
+                              {service.title}
+                            </span>
+                            <span className="mt-0.5 block text-xs text-muted">
+                              {service.signal}
+                            </span>
+                          </div>
+                          <span
+                            className="h-px w-3 bg-border transition-[width,background-color] duration-300 group-hover:w-5 group-hover:bg-accent"
+                            aria-hidden="true"
+                          />
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+
+                  <div className="mt-5 flex items-center gap-4 rounded-xl border border-border/80 bg-white/70 px-4 py-3 lg:mt-4 lg:py-2.5 xl:mt-5 xl:py-3">
+                    <span className="inline-flex items-center gap-2 text-xs font-medium text-foreground">
+                      <span
+                        className="h-1.5 w-1.5 rounded-full bg-accent"
+                        aria-hidden="true"
+                      />
+                      Strategy through support
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -166,11 +216,12 @@ export default function ServicesSection() {
             <div>
               {/* Featured panel */}
               <div
-                className="svc-reveal relative rounded-xl border border-border bg-white p-8 transition-colors duration-200 hover:border-accent-dark sm:p-10"
+                className="svc-reveal relative rounded-xl border border-border bg-surface p-8 transition-colors duration-200 hover:border-accent-dark sm:p-10"
                 style={delayStyle(90)}
               >
                 <div
-                  className="pointer-events-none absolute left-1/2 top-full hidden h-8 w-px -translate-x-1/2 bg-border lg:block"
+                  className="svc-current-line svc-current-line-y pointer-events-none absolute left-1/2 top-full hidden h-8 w-px -translate-x-1/2 lg:block"
+                  style={currentStyle(0)}
                   aria-hidden="true"
                 />
                 <div className="flex items-start justify-between">
@@ -196,17 +247,42 @@ export default function ServicesSection() {
               </div>
 
               {/* Two-up supporting row */}
-              <div className="relative mt-8 grid gap-5 sm:grid-cols-2 lg:mt-14">
+              <div className="svc-branch-grid relative mt-8 grid gap-5 sm:grid-cols-2 lg:mt-14">
                 <div
-                  className="pointer-events-none absolute inset-x-[25%] -top-6 hidden h-px bg-border lg:block"
+                  className="svc-branch-span svc-branch-span-top svc-current-line svc-current-line-x pointer-events-none absolute -top-6 hidden h-px lg:block"
+                  style={currentStyle(180)}
                   aria-hidden="true"
                 />
                 <div
-                  className="pointer-events-none absolute left-[25%] -top-6 hidden h-6 w-px bg-border lg:block"
+                  className="svc-branch-left svc-current-line svc-current-line-y pointer-events-none absolute -top-6 hidden h-6 w-px lg:block"
+                  style={currentStyle(360)}
                   aria-hidden="true"
                 />
                 <div
-                  className="pointer-events-none absolute left-[75%] -top-6 hidden h-6 w-px bg-border lg:block"
+                  className="svc-branch-right svc-current-line svc-current-line-y pointer-events-none absolute -top-6 hidden h-6 w-px lg:block"
+                  style={currentStyle(520)}
+                  aria-hidden="true"
+                />
+                <span
+                  className="svc-current-node absolute -top-[30px] left-1/2 hidden h-3 w-3 -translate-x-1/2 rounded-full border-[3px] border-white lg:block"
+                  style={currentStyle(180)}
+                  aria-hidden="true"
+                />
+
+                {/* The two service branches merge back into one live circuit. */}
+                <div
+                  className="svc-branch-left svc-current-line svc-current-line-y pointer-events-none absolute top-full hidden h-6 w-px lg:block"
+                  style={currentStyle(680)}
+                  aria-hidden="true"
+                />
+                <div
+                  className="svc-branch-right svc-current-line svc-current-line-y pointer-events-none absolute top-full hidden h-6 w-px lg:block"
+                  style={currentStyle(840)}
+                  aria-hidden="true"
+                />
+                <div
+                  className="svc-branch-span svc-branch-span-bottom svc-current-line svc-current-line-x pointer-events-none absolute -bottom-6 hidden h-px lg:block"
+                  style={currentStyle(1000)}
                   aria-hidden="true"
                 />
 
@@ -215,7 +291,13 @@ export default function ServicesSection() {
                   style={delayStyle(180)}
                 >
                   <span
-                    className="absolute -top-[27px] left-1/2 hidden h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-white bg-border transition-colors duration-200 group-hover:bg-accent lg:block"
+                    className="svc-current-node absolute -top-[30px] left-1/2 hidden h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-white lg:block"
+                    style={currentStyle(360)}
+                    aria-hidden="true"
+                  />
+                  <span
+                    className="svc-current-node absolute -bottom-[6px] left-1/2 hidden h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-white lg:block"
+                    style={currentStyle(680)}
                     aria-hidden="true"
                   />
                   <span className="text-sm font-semibold text-muted">
@@ -236,7 +318,13 @@ export default function ServicesSection() {
                   style={delayStyle(240)}
                 >
                   <span
-                    className="absolute -top-[27px] left-1/2 hidden h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-white bg-border transition-colors duration-200 group-hover:bg-accent lg:block"
+                    className="svc-current-node absolute -top-[30px] left-1/2 hidden h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-white lg:block"
+                    style={currentStyle(520)}
+                    aria-hidden="true"
+                  />
+                  <span
+                    className="svc-current-node absolute -bottom-[6px] left-1/2 hidden h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-white lg:block"
+                    style={currentStyle(840)}
                     aria-hidden="true"
                   />
                   <span className="text-sm font-semibold text-muted">
@@ -256,7 +344,8 @@ export default function ServicesSection() {
               {/* Distinct horizontal support module */}
               <div className="relative mt-8 lg:mt-14">
                 <div
-                  className="pointer-events-none absolute left-1/2 -top-8 hidden h-8 w-px -translate-x-1/2 bg-border lg:block"
+                  className="svc-current-line svc-current-line-y pointer-events-none absolute left-1/2 -top-8 hidden h-8 w-px -translate-x-1/2 lg:block"
+                  style={currentStyle(1160)}
                   aria-hidden="true"
                 />
                 <div
@@ -264,7 +353,8 @@ export default function ServicesSection() {
                   style={delayStyle(300)}
                 >
                   <span
-                    className="absolute -top-[27px] left-1/2 hidden h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-white bg-border transition-colors duration-200 group-hover:bg-accent lg:block"
+                    className="svc-current-node absolute -top-[27px] left-1/2 hidden h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-white lg:block"
+                    style={currentStyle(1160)}
                     aria-hidden="true"
                   />
                   <div className="sm:max-w-xs">

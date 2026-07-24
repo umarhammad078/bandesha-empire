@@ -1,45 +1,107 @@
 import ProcessReveal from "@/components/ProcessReveal";
 
-function delayStyle(ms: number): React.CSSProperties {
+function delayStyle(ms: number) {
   return { "--reveal-delay": `${ms}ms` } as React.CSSProperties;
 }
 
-function StageLabels({
-  items,
-  tone = "surface",
-}: {
-  items: string[];
-  tone?: "surface" | "white";
-}) {
+type ProcessGlyphType = "radar" | "architecture" | "build" | "evolve";
+
+function ProcessGlyph({ type }: { type: ProcessGlyphType }) {
+  if (type === "radar") {
+    return (
+      <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <circle cx="24" cy="24" r="14" stroke="currentColor" strokeWidth="1.5" />
+        <circle cx="24" cy="24" r="7" stroke="currentColor" strokeWidth="1.5" opacity="0.55" />
+        <path d="M24 7V41M7 24H41" stroke="currentColor" strokeWidth="1.5" opacity="0.28" />
+        <path d="M24 24 34 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <circle className="proc-glyph-signal" cx="34" cy="14" r="3.5" fill="var(--accent)" />
+      </svg>
+    );
+  }
+
+  if (type === "architecture") {
+    return (
+      <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <rect x="8" y="9" width="32" height="30" rx="3" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M18 9V39M30 9V39M8 20H40M8 30H40" stroke="currentColor" strokeWidth="1.5" opacity="0.3" />
+        <path d="M13 33 22 24 28 28 36 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <circle className="proc-glyph-signal" cx="36" cy="16" r="3.5" fill="var(--accent)" />
+      </svg>
+    );
+  }
+
+  if (type === "build") {
+    return (
+      <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <path d="M16 10H10V38H16M32 10H38V38H32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <rect x="18" y="14" width="12" height="6" rx="2" stroke="currentColor" strokeWidth="1.5" />
+        <rect x="18" y="22" width="12" height="6" rx="2" stroke="currentColor" strokeWidth="1.5" opacity="0.65" />
+        <rect x="18" y="30" width="12" height="6" rx="2" stroke="currentColor" strokeWidth="1.5" opacity="0.38" />
+        <circle className="proc-glyph-signal" cx="30" cy="17" r="3.5" fill="var(--accent)" />
+      </svg>
+    );
+  }
+
   return (
-    <div className="mt-4 flex flex-wrap gap-2">
-      {items.map((label) => (
-        <span
-          key={label}
-          className={
-            tone === "white"
-              ? "rounded-md border border-border bg-white px-3 py-1 text-xs text-muted"
-              : "rounded-md border border-border bg-surface px-3 py-1 text-xs text-muted"
-          }
-        >
-          {label}
-        </span>
-      ))}
-    </div>
+    <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <path d="M37 20A14 14 0 1 0 38 29" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M32 13H39V20" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M17 29 22 24 27 27 35 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <circle className="proc-glyph-signal" cx="35" cy="18" r="3.5" fill="var(--accent)" />
+    </svg>
   );
 }
 
-function RailNode({ delay, final = false }: { delay: number; final?: boolean }) {
+const PROCESS_STAGES = [
+  {
+    number: "01",
+    title: "Discover",
+    signal: "Find the real leverage",
+    description:
+      "We get close to the business, the users and the decisions behind the brief—so the project solves the right problem before momentum begins.",
+    outputs: ["Business goal", "User reality", "Success measure"],
+    glyph: "radar",
+  },
+  {
+    number: "02",
+    title: "Architect",
+    signal: "Make complexity legible",
+    description:
+      "We translate the findings into an experience and technical blueprint with clear priorities, dependable integrations and no hidden assumptions.",
+    outputs: ["System blueprint", "Experience flow", "Delivery scope"],
+    glyph: "architecture",
+  },
+  {
+    number: "03",
+    title: "Build",
+    signal: "Turn decisions into product",
+    description:
+      "Design and engineering move together in focused releases, with visible progress, responsive implementation and quality built into every review.",
+    outputs: ["Working releases", "Integrated systems", "Quality assurance"],
+    glyph: "build",
+  },
+  {
+    number: "04",
+    title: "Evolve",
+    signal: "Treat launch as a checkpoint",
+    description:
+      "We verify the live system, learn from real use and keep improving performance, features and reliability as the business moves forward.",
+    outputs: ["Careful launch", "Measured iteration", "Ongoing support"],
+    glyph: "evolve",
+  },
+] as const;
+
+function ArrowIcon() {
   return (
-    <span
-      className={
-        final
-          ? "proc-node proc-node-final absolute left-0 top-1.5 h-3 w-3 -translate-x-1/2 rounded-full border-2 border-surface bg-accent"
-          : "proc-node absolute left-0 top-1.5 h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-surface bg-border"
-      }
-      style={delayStyle(delay)}
-      aria-hidden="true"
-    />
+    <svg viewBox="0 0 18 18" width="18" height="18" fill="none" aria-hidden="true">
+      <path
+        d="M3.5 9H14M10 5l4 4-4 4"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
@@ -48,153 +110,119 @@ export default function ProcessSection() {
     <section
       id="process"
       aria-labelledby="process-heading"
-      className="w-full bg-surface"
+      className="proc-editorial-section w-full overflow-hidden"
     >
-      <div className="mx-auto max-w-[1400px] px-6 py-24 lg:py-32">
+      <div className="proc-editorial-glow" aria-hidden="true" />
+
+      <div className="relative mx-auto max-w-[1500px] px-6 py-24 sm:px-8 lg:px-12 lg:py-32">
         <ProcessReveal>
-          <div className="grid gap-16 lg:grid-cols-[35fr_65fr] lg:items-start">
-            {/* Left column — introduction */}
-            <div className="lg:sticky lg:top-28">
-              <div className="proc-reveal" style={delayStyle(0)}>
-                <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-accent-dark">
-                  How We Build
+          <header className="proc-manifest proc-reveal" style={delayStyle(0)}>
+            <div>
+              <div className="proc-manifest-eyebrow">
+                <span aria-hidden="true">
+                  <i />
+                  <i />
                 </span>
-
-                <h2
-                  id="process-heading"
-                  className="mt-5 text-[clamp(1.9rem,1rem+2.4vw,2.75rem)] font-bold leading-[1.15] tracking-tight text-foreground"
-                >
-                  From first signal to a system that keeps working.
-                </h2>
-
-                <p className="mt-5 max-w-md text-base leading-relaxed text-muted">
-                  Every project moves through a focused sequence. We
-                  understand the real problem, design the right structure,
-                  build in clear stages and continue improving after launch.
-                </p>
-
-                <div
-                  className="mt-8 h-8 w-0.5 bg-accent"
-                  aria-hidden="true"
-                />
-
-                <div className="mt-6 flex flex-col gap-1 border-t border-border pt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
-                  <span>Sequence 01—04</span>
-                  <span>Delivery System</span>
-                </div>
+                Delivery model / How we build
               </div>
+              <h2 id="process-heading">
+                Good work is a sequence of
+                <span> better decisions.</span>
+              </h2>
             </div>
 
-            {/* Right column — assembly rail */}
-            <div className="proc-reveal" style={delayStyle(60)}>
-              <ol className="relative">
-                <div
-                  className="proc-rail-line pointer-events-none absolute left-0 top-2 bottom-2 w-px -translate-x-1/2 bg-border"
-                  style={delayStyle(80)}
-                  aria-hidden="true"
+            <div className="proc-manifest-note">
+              <p>
+                No black-box hand-offs and no theatre. Strategy, design and
+                engineering stay connected from the first conversation to the
+                first real users—and beyond.
+              </p>
+              <dl>
+                <div>
+                  <dt>01</dt>
+                  <dd>Clear gates</dd>
+                </div>
+                <div>
+                  <dt>02</dt>
+                  <dd>Visible progress</dd>
+                </div>
+                <div>
+                  <dt>03</dt>
+                  <dd>One accountable team</dd>
+                </div>
+              </dl>
+            </div>
+          </header>
+
+          <div className="proc-deck proc-reveal" style={delayStyle(90)}>
+            <div className="proc-deck-topbar">
+              <span>
+                <i aria-hidden="true" />
+                Project operating system
+              </span>
+              <span>Strategy · Experience · Engineering · Evolution</span>
+            </div>
+
+            <ol className="proc-chapters">
+              {PROCESS_STAGES.map((stage, index) => (
+                <li
+                  key={stage.number}
+                  className="proc-chapter proc-stage"
+                  style={delayStyle(170 + index * 95)}
+                >
+                  <div className="proc-chapter-top">
+                    <span className="proc-chapter-number" aria-hidden="true">
+                      {stage.number}
+                    </span>
+                    <span className="proc-glyph">
+                      <ProcessGlyph type={stage.glyph} />
+                    </span>
+                  </div>
+
+                  <span className="proc-chapter-signal">{stage.signal}</span>
+                  <h3>{stage.title}</h3>
+                  <p>{stage.description}</p>
+
+                  <div className="proc-chapter-output">
+                    <span>What leaves this phase</span>
+                    <ul>
+                      {stage.outputs.map((output) => (
+                        <li key={output}>{output}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </li>
+              ))}
+            </ol>
+
+            <div className="proc-deck-progress" aria-hidden="true">
+              {PROCESS_STAGES.map((stage, index) => (
+                <span
+                  key={stage.number}
+                  className="proc-deck-progress-segment"
+                  style={delayStyle(400 + index * 120)}
                 />
-
-                {/* Stage 01 — Discover: wide horizontal entry row */}
-                <li
-                  className="proc-stage relative pl-8 sm:pl-12"
-                  style={delayStyle(160)}
-                >
-                  <RailNode delay={220} />
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-baseline sm:gap-8">
-                    <span className="text-4xl font-bold leading-none text-border sm:text-5xl">
-                      01
-                    </span>
-                    <div className="max-w-xl">
-                      <h3 className="text-xl font-semibold text-foreground">
-                        Discover
-                      </h3>
-                      <p className="mt-3 leading-relaxed text-muted">
-                        We identify the business goal, understand the users
-                        and uncover the workflows, bottlenecks and decisions
-                        that will shape the project.
-                      </p>
-                      <StageLabels items={["Goals", "Users", "Requirements"]} />
-                    </div>
-                  </div>
-                </li>
-
-                {/* Stage 02 — Architect: offset, technical labels on secondary row */}
-                <li
-                  className="proc-stage relative mt-14 pl-8 sm:pl-12 lg:mt-16"
-                  style={delayStyle(260)}
-                >
-                  <RailNode delay={320} />
-                  <div className="sm:ml-10 lg:ml-16">
-                    <span className="text-sm font-semibold text-muted">
-                      02
-                    </span>
-                    <h3 className="mt-3 text-xl font-semibold text-foreground">
-                      Architect
-                    </h3>
-                    <p className="mt-3 max-w-lg leading-relaxed text-muted">
-                      We turn the findings into a practical system
-                      structure—defining the experience, technical approach,
-                      integrations and delivery priorities before development
-                      begins.
-                    </p>
-                    <div className="mt-4 border-t border-border pt-4">
-                      <StageLabels
-                        items={["System Map", "User Flow", "Technical Scope"]}
-                      />
-                    </div>
-                  </div>
-                </li>
-
-                {/* Stage 03 — Build: strongest visual weight, light surface card */}
-                <li
-                  className="proc-stage relative mt-14 pl-8 sm:pl-12 lg:mt-16"
-                  style={delayStyle(360)}
-                >
-                  <RailNode delay={420} />
-                  <div className="rounded-lg border border-border bg-white p-6 sm:p-8">
-                    <span className="text-sm font-semibold text-muted">
-                      03
-                    </span>
-                    <h3 className="mt-3 text-xl font-semibold text-foreground sm:text-2xl">
-                      Build
-                    </h3>
-                    <p className="mt-3 max-w-xl leading-relaxed text-muted">
-                      The approved system is developed in focused stages,
-                      with responsive implementation, clear progress and
-                      continuous quality checks.
-                    </p>
-                    <StageLabels
-                      items={["Development", "Integration", "Quality Assurance"]}
-                      tone="surface"
-                    />
-                  </div>
-                </li>
-
-                {/* Stage 04 — Launch & Improve: full width, closing microcopy */}
-                <li
-                  className="proc-stage relative mt-14 pl-8 sm:pl-12 lg:mt-16"
-                  style={delayStyle(460)}
-                >
-                  <RailNode delay={540} final />
-                  <span className="text-sm font-semibold text-muted">04</span>
-                  <h3 className="mt-3 text-xl font-semibold text-foreground">
-                    Launch &amp; Improve
-                  </h3>
-                  <p className="mt-3 max-w-xl leading-relaxed text-muted">
-                    We deploy carefully, verify the live experience and
-                    continue refining performance, features and reliability
-                    as the product evolves.
-                  </p>
-                  <StageLabels
-                    items={["Deployment", "Optimization", "Ongoing Support"]}
-                  />
-                  <p className="mt-6 border-t border-border pt-6 text-sm font-medium text-foreground">
-                    Built with clarity. Launched with confidence. Improved
-                    with purpose.
-                  </p>
-                </li>
-              </ol>
+              ))}
             </div>
+          </div>
+
+          <div className="proc-outcome-band proc-reveal" style={delayStyle(520)}>
+            <div className="proc-outcome-marker" aria-hidden="true">
+              <span>∞</span>
+            </div>
+            <div>
+              <span className="proc-outcome-label">The operating principle</span>
+              <strong>Clarity stays connected to execution.</strong>
+            </div>
+            <p>
+              Launch is a checkpoint—not the end of the relationship.
+            </p>
+            <a href="#contact">
+              Discuss your project
+              <span aria-hidden="true">
+                <ArrowIcon />
+              </span>
+            </a>
           </div>
         </ProcessReveal>
       </div>

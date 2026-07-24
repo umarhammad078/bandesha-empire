@@ -1,188 +1,164 @@
 import AboutReveal from "@/components/AboutReveal";
+import WorldGlobe from "@/components/WorldGlobe";
 
-function delayStyle(ms: number): React.CSSProperties {
+function delayStyle(ms: number) {
   return { "--reveal-delay": `${ms}ms` } as React.CSSProperties;
 }
 
-type Principle = {
-  number: string;
-  title: string;
-  body: string;
-  outcome: string;
-};
+const WORLD_PRINCIPLES = [
+  {
+    label: "Operating principle / 01",
+    title: "Fit before features.",
+    body: "We understand the workflow, friction and real business objective before deciding what should be designed or automated.",
+  },
+  {
+    label: "Operating principle / 02",
+    title: "Clarity at every stage.",
+    body: "Decisions stay visible, communication stays direct and the work always has a clear reason for moving forward.",
+  },
+] as const;
 
-const PRINCIPLES: Principle[] = [
+const WORLD_METRICS = [
   {
-    number: "01",
-    title: "Built around the real workflow",
-    body: "Before choosing tools or designing screens, we understand how the business currently works, where friction exists and what the finished system must improve.",
-    outcome: "Relevant by Design",
+    index: "01",
+    eyebrow: "Project record",
+    value: "200+",
+    title: "Successful projects completed",
+    detail: "Websites, automation and connected digital systems",
   },
   {
-    number: "02",
-    title: "Direct communication throughout",
-    body: "You work through a clear process with visible progress, practical decisions and honest communication instead of unnecessary layers or vague technical language.",
-    outcome: "Clarity at Every Stage",
+    index: "02",
+    eyebrow: "Client reach",
+    value: "Worldwide",
+    title: "Clients supported across markets",
+    detail: "Direct remote collaboration without unnecessary layers",
   },
   {
-    number: "03",
-    title: "Engineered for long-term use",
-    body: "The final product is structured to remain fast, maintainable and adaptable as requirements, users and business priorities continue to evolve.",
-    outcome: "Built Beyond Launch",
+    index: "03",
+    eyebrow: "Working model",
+    value: "End-to-end",
+    title: "One partner from strategy to support",
+    detail: "Fewer hand-offs, stronger continuity and clearer ownership",
   },
-];
+] as const;
 
 export default function AboutSection() {
-  const [first, second, third] = PRINCIPLES;
-
   return (
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="w-full border-t border-border bg-background"
+      className="abt-world-section w-full overflow-hidden"
     >
-      <div className="mx-auto max-w-[1400px] px-6 py-24 lg:py-32">
+      <div className="abt-world-grid" aria-hidden="true" />
+      <div className="abt-world-ambient abt-world-ambient-one" aria-hidden="true" />
+      <div className="abt-world-ambient abt-world-ambient-two" aria-hidden="true" />
+
+      <div className="relative mx-auto max-w-[1500px] px-6 py-24 sm:px-8 lg:px-12 lg:py-32">
         <AboutReveal>
-          <div className="grid gap-16 lg:grid-cols-[42fr_58fr] lg:items-start">
-            {/* Left column */}
-            <div className="lg:sticky lg:top-28">
-              <div className="abt-reveal" style={delayStyle(0)}>
-                <span className="inline-flex items-center text-xs font-semibold uppercase tracking-[0.16em] text-accent-dark">
-                  Why Bandesha Empire
-                </span>
-
-                <h2
-                  id="about-heading"
-                  className="mt-5 text-[clamp(1.9rem,1rem+2.4vw,2.75rem)] font-bold leading-[1.15] tracking-tight text-foreground"
-                >
-                  The work is custom. The process stays clear.
-                </h2>
-
-                <p className="mt-5 max-w-md text-base leading-relaxed text-muted">
-                  We combine strategic thinking, careful development and
-                  direct communication to create digital systems that fit
-                  the way a business actually operates—not just the way a
-                  template expects it to.
-                </p>
-
-                <div className="mt-8 h-0.5 w-8 bg-accent" aria-hidden="true" />
-              </div>
-
-              <div
-                className="abt-reveal mt-14 border-t border-border pt-6 lg:mt-24"
-                style={delayStyle(100)}
-              >
-                <p className="text-sm font-medium text-foreground">
-                  Considered decisions. Honest communication. Work that lasts.
-                </p>
-              </div>
+          <header className="abt-world-header abt-reveal" style={delayStyle(0)}>
+            <div className="abt-world-eyebrow">
+              Proven delivery / Connected by design
             </div>
 
-            {/* Right column — operating charter frame */}
-            <div className="abt-reveal" style={delayStyle(70)}>
-              <div className="abt-frame relative border border-border p-8 sm:p-10 lg:p-12">
-                <span
-                  className="pointer-events-none absolute -top-3 left-6 hidden bg-background px-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted sm:block"
-                  aria-hidden="true"
+            <div className="abt-world-intro">
+              <h2 id="about-heading">
+                Built to work in the real world.
+                <span> Wherever opportunity moves.</span>
+              </h2>
+              <div>
+                <p>
+                  We combine strategic thinking, careful engineering and
+                  direct communication to build digital systems that make
+                  sense in the real world, scale confidently and keep
+                  improving long after launch.
+                </p>
+                <span className="abt-world-intro-note">
+                  One accountable partner / From first decision to long-term evolution
+                </span>
+              </div>
+            </div>
+          </header>
+
+          <div className="abt-world-stage abt-reveal" style={delayStyle(90)}>
+            <div className="abt-world-metrics">
+              {WORLD_METRICS.map((metric, index) => (
+                <article
+                  key={metric.index}
+                  className="abt-world-metric"
+                  style={delayStyle(150 + index * 90)}
                 >
-                  Operating Principles / 01—03
+                  <div className="abt-world-metric-meta">
+                    <span>{metric.index}</span>
+                    <span>{metric.eyebrow}</span>
+                  </div>
+                  <strong
+                    className={
+                      metric.value === "200+"
+                        ? "abt-world-metric-value"
+                        : "abt-world-metric-value abt-world-metric-value-word"
+                    }
+                  >
+                    {metric.value}
+                  </strong>
+                  <h3>{metric.title}</h3>
+                  <p>{metric.detail}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="abt-world-composition">
+              <aside
+                className="abt-world-callout abt-world-callout-left abt-row"
+                style={delayStyle(190)}
+              >
+                <span>{WORLD_PRINCIPLES[0].label}</span>
+                <h3>{WORLD_PRINCIPLES[0].title}</h3>
+                <p>{WORLD_PRINCIPLES[0].body}</p>
+                <div aria-hidden="true">
+                  <i />
+                </div>
+              </aside>
+
+              <div className="abt-world-globe-shell">
+                <WorldGlobe />
+
+                <span className="abt-world-coordinate abt-world-coordinate-top">
+                  24.8607° N / Connected systems
+                </span>
+                <span className="abt-world-coordinate abt-world-coordinate-bottom">
+                  Strategy · Product · Automation · Support
                 </span>
 
-                <span
-                  className="pointer-events-none absolute -left-1.5 -top-1.5 hidden h-3 w-3 border-l border-t border-border sm:block"
-                  aria-hidden="true"
-                />
-                <span
-                  className="pointer-events-none absolute -bottom-1.5 -right-1.5 hidden h-3 w-3 border-b border-r border-border sm:block"
-                  aria-hidden="true"
-                />
-
-                <ol className="relative divide-y divide-border">
-                  <div
-                    className="abt-reg-line pointer-events-none absolute left-6 top-2 bottom-2 hidden w-px bg-border sm:block"
-                    style={delayStyle(160)}
-                    aria-hidden="true"
-                  />
-
-                  {/* Principle 01 — number far left, content beside it */}
-                  <li
-                    className="abt-row relative py-8 first:pt-0 sm:pl-20"
-                    style={delayStyle(220)}
-                  >
-                    <div className="flex items-start gap-6 sm:absolute sm:left-0 sm:top-8 sm:gap-0">
-                      <span className="text-4xl font-bold leading-none text-border sm:text-5xl">
-                        {first.number}
-                      </span>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-foreground">
-                        {first.title}
-                      </h3>
-                      <p className="mt-3 max-w-xl leading-relaxed text-muted">
-                        {first.body}
-                      </p>
-                      <span className="mt-4 inline-block text-xs font-semibold uppercase tracking-[0.12em] text-accent-dark">
-                        {first.outcome}
-                      </span>
-                    </div>
-                  </li>
-
-                  {/* Principle 02 — indented, subtle surface strip */}
-                  <li
-                    className="abt-row relative py-8 sm:pl-20"
-                    style={delayStyle(320)}
-                  >
-                    <div
-                      className="pointer-events-none absolute inset-y-0 left-0 right-8 hidden bg-surface sm:block lg:right-24"
-                      aria-hidden="true"
-                    />
-                    <div className="relative flex items-start gap-6 sm:absolute sm:left-0 sm:top-8 sm:gap-0">
-                      <span className="text-4xl font-bold leading-none text-border sm:text-5xl">
-                        {second.number}
-                      </span>
-                    </div>
-                    <div className="relative sm:pl-6 lg:pl-10">
-                      <h3 className="text-xl font-semibold text-foreground">
-                        {second.title}
-                      </h3>
-                      <p className="mt-3 max-w-xl leading-relaxed text-muted">
-                        {second.body}
-                      </p>
-                      <span className="mt-4 inline-block text-xs font-semibold uppercase tracking-[0.12em] text-accent-dark">
-                        {second.outcome}
-                      </span>
-                    </div>
-                  </li>
-
-                  {/* Principle 03 — main alignment, green completion node */}
-                  <li
-                    className="abt-row relative py-8 last:pb-0 sm:pl-20"
-                    style={delayStyle(420)}
-                  >
-                    <div className="flex items-start gap-6 sm:absolute sm:left-0 sm:top-8 sm:gap-0">
-                      <span className="text-4xl font-bold leading-none text-border sm:text-5xl">
-                        {third.number}
-                      </span>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-foreground">
-                        {third.title}
-                      </h3>
-                      <p className="mt-3 max-w-xl leading-relaxed text-muted">
-                        {third.body}
-                      </p>
-                      <span className="mt-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-accent-dark">
-                        <span
-                          className="abt-node-final h-2 w-2 rounded-full"
-                          style={delayStyle(480)}
-                          aria-hidden="true"
-                        />
-                        {third.outcome}
-                      </span>
-                    </div>
-                  </li>
-                </ol>
+                <div className="abt-world-status">
+                  <div>
+                    <small>Global operating view</small>
+                    <strong>Systems in motion</strong>
+                  </div>
+                  <b>LIVE</b>
+                </div>
               </div>
+
+              <aside
+                className="abt-world-callout abt-world-callout-right abt-row"
+                style={delayStyle(290)}
+              >
+                <span>{WORLD_PRINCIPLES[1].label}</span>
+                <h3>{WORLD_PRINCIPLES[1].title}</h3>
+                <p>{WORLD_PRINCIPLES[1].body}</p>
+                <div aria-hidden="true">
+                  <i />
+                </div>
+              </aside>
+            </div>
+
+            <div className="abt-world-footer">
+              <div>
+                Connected from strategy to support
+              </div>
+              <p>
+                Purpose-built systems / Maintainable foundations / Measured evolution
+              </p>
+              <strong>Built beyond launch.</strong>
             </div>
           </div>
         </AboutReveal>

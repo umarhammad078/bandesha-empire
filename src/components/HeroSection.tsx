@@ -22,6 +22,56 @@ function ArrowIcon() {
   );
 }
 
+function LoginIcon() {
+  return (
+    <svg viewBox="0 0 18 18" width="18" height="18" fill="none" aria-hidden="true">
+      <path
+        d="M7.5 3.5H4.75A1.75 1.75 0 0 0 3 5.25v7.5a1.75 1.75 0 0 0 1.75 1.75H7.5M10.5 5.75 13.75 9l-3.25 3.25M6.25 9h7.5"
+        stroke="currentColor"
+        strokeWidth="1.45"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ButtonBorderCurrent() {
+  return (
+    <span className="hero-button-border-current" aria-hidden="true">
+      <svg viewBox="0 0 100 40" preserveAspectRatio="none">
+        <rect
+          className="hero-button-border-track"
+          x="0.75"
+          y="0.75"
+          width="98.5"
+          height="38.5"
+          rx="19.25"
+          pathLength="100"
+        />
+        <rect
+          className="hero-button-border-beacon hero-button-border-beacon-glow"
+          x="0.75"
+          y="0.75"
+          width="98.5"
+          height="38.5"
+          rx="19.25"
+          pathLength="100"
+        />
+        <rect
+          className="hero-button-border-beacon hero-button-border-beacon-core"
+          x="0.75"
+          y="0.75"
+          width="98.5"
+          height="38.5"
+          rx="19.25"
+          pathLength="100"
+        />
+      </svg>
+    </span>
+  );
+}
+
 function BabyRobot() {
   return (
     <svg
@@ -478,20 +528,28 @@ export default function HeroSection() {
               style={revealStyle(425)}
             >
               <a
-                href="#contact"
-                className="group inline-flex min-h-14 items-center justify-center gap-5 rounded-full bg-[#111111] px-7 text-sm font-semibold text-white shadow-[0_16px_45px_rgba(17,17,17,0.14)] transition-[background-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:bg-[#242622] hover:shadow-[0_20px_55px_rgba(17,17,17,0.2)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-dark"
+                href="/login"
+                className="hero-current-button group inline-flex min-h-14 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--accent-dark),var(--accent))] px-7 text-sm font-semibold text-white shadow-[0_16px_42px_rgba(41,135,49,0.22)] transition-[background-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_52px_rgba(41,135,49,0.32)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-dark"
               >
-                Start a Project
-                <span className="grid size-8 place-items-center rounded-full bg-accent text-[#071008] transition-transform duration-300 group-hover:translate-x-1">
-                  <ArrowIcon />
+                <ButtonBorderCurrent />
+                <span className="hero-wave-button-content gap-5">
+                  <span>Login</span>
+                  <span className="grid size-8 place-items-center rounded-full bg-white/16 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.22),0_5px_18px_rgba(28,103,35,0.2)] transition-[background-color,transform] duration-300 group-hover:translate-x-0.5 group-hover:bg-white/22">
+                    <LoginIcon />
+                  </span>
                 </span>
               </a>
               <a
-                href="#services"
-                className="group inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-white/72 px-7 text-sm font-semibold text-[#111111] shadow-[0_10px_35px_rgba(28,38,27,0.055)] ring-1 ring-[#111111]/10 transition-[background-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_15px_42px_rgba(28,38,27,0.09)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-dark"
+                href="#portfolio"
+                className="hero-current-button group inline-flex min-h-14 items-center justify-center rounded-full bg-white/72 px-7 text-sm font-semibold text-[#111111] shadow-[0_10px_35px_rgba(28,38,27,0.055)] ring-1 ring-[#111111]/10 transition-[background-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_15px_42px_rgba(28,38,27,0.09)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-dark"
               >
-                Explore What We Build
-                <ArrowIcon />
+                <ButtonBorderCurrent />
+                <span className="hero-wave-button-content gap-3.5">
+                  <span>View My Project</span>
+                  <span className="grid size-8 place-items-center rounded-full bg-[#111111]/5 text-accent-dark ring-1 ring-[#111111]/8 transition-[background-color,transform] duration-300 group-hover:translate-x-0.5 group-hover:bg-accent-tint">
+                    <ArrowIcon />
+                  </span>
+                </span>
               </a>
             </div>
 

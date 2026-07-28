@@ -1,10 +1,11 @@
-import Image from "next/image";
+import BrandMark from "@/components/BrandMark";
 
 const FOOTER_LINKS = [
+  { label: "Home", href: "#hero" },
   { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
+  { label: "Portfolio", href: "#portfolio" },
+  { label: "Pricing", href: "#pricing" },
   { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
 ];
 
 export default function SiteFooter() {
@@ -17,16 +18,8 @@ export default function SiteFooter() {
           {/* Brand */}
           <div className="max-w-sm">
             <div className="flex items-center gap-2.5">
-              <span className="relative block h-7 w-7 overflow-hidden">
-                <Image
-                  src="/bandesha-empire-mark.png"
-                  alt=""
-                  width={518}
-                  height={502}
-                  unoptimized
-                  className="absolute inset-0 h-full w-full object-cover object-center"
-                  style={{ transform: "scale(1.1)" }}
-                />
+              <span className="relative block h-7 w-7">
+                <BrandMark className="h-full w-full" />
               </span>
               <span className="text-lg font-semibold tracking-tight text-foreground">
                 Bandesha Empire

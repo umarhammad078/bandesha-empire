@@ -6,7 +6,11 @@ function delayStyle(ms: number): React.CSSProperties {
 
 export default function CtaSection() {
   return (
-    <section aria-labelledby="cta-heading" className="w-full bg-background">
+    <section
+      id="pricing"
+      aria-labelledby="cta-heading"
+      className="w-full bg-background"
+    >
       <div className="mx-auto max-w-[1400px] px-6 py-20 lg:py-28">
         <Reveal>
           <div className="rv relative border border-border bg-white px-6 py-14 sm:px-12 sm:py-16 lg:px-20">

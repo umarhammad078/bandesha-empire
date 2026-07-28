@@ -197,20 +197,6 @@ export default function WorldGlobe() {
       const rotation = reduceMotion ? 18 : 18 + time * 0.0044;
       const tilt = -10;
 
-      const atmosphere = context.createRadialGradient(
-        centerX,
-        centerY,
-        radius * 0.8,
-        centerX,
-        centerY,
-        radius * 1.55,
-      );
-      atmosphere.addColorStop(0, "rgba(70, 184, 79, 0.055)");
-      atmosphere.addColorStop(0.55, "rgba(70, 184, 79, 0.14)");
-      atmosphere.addColorStop(1, "rgba(70, 184, 79, 0)");
-      context.fillStyle = atmosphere;
-      context.fillRect(0, 0, width, height);
-
       context.save();
       context.beginPath();
       context.arc(centerX, centerY, radius, 0, Math.PI * 2);

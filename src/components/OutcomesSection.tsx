@@ -31,6 +31,7 @@ const OUTCOMES = [
 export default function OutcomesSection() {
   return (
     <section
+      id="outcomes"
       aria-labelledby="outcomes-heading"
       className="w-full bg-background"
     >

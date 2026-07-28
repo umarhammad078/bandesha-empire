@@ -1,165 +1,177 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import BrandMark from "@/components/BrandMark";
 
 const NAV_LINKS = [
-  { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
-];
+  { label: "Home", href: "#hero", sectionId: "hero" },
+  { label: "Services", href: "#services", sectionId: "services" },
+  { label: "Portfolio", href: "#portfolio", sectionId: "portfolio" },
+  { label: "Pricing", href: "#pricing", sectionId: "pricing" },
+  { label: "About", href: "#about", sectionId: "about" },
+] as const;
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
 
-  // Add a soft shadow + translucent backdrop once the page is scrolled.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
+    let frame = 0;
+
+    const updateHeader = () => {
+      setScrolled(window.scrollY > 18);
+
+      const marker = window.scrollY + window.innerHeight * 0.34;
+      const visibleSections: Array<{ id: string; top: number }> = [];
+
+      NAV_LINKS.forEach((link) => {
+        const element = document.getElementById(link.sectionId);
+        if (element) {
+          visibleSections.push({
+            id: link.sectionId,
+            top: element.offsetTop,
+          });
+        }
+      });
+
+      visibleSections.sort((first, second) => first.top - second.top);
+
+      const current = visibleSections.reduce(
+        (section, entry) => (entry.top <= marker ? entry.id : section),
+        "hero",
+      );
+      setActiveSection(current);
+    };
+
+    const onScroll = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(updateHeader);
+    };
+
+    updateHeader();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
-  // Close the mobile menu on Escape.
   useEffect(() => {
     if (!menuOpen) return;
+
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMenuOpen(false);
     };
+
+    const onResize = () => {
+      if (window.innerWidth >= 900) setMenuOpen(false);
+    };
+
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("resize", onResize);
+    };
   }, [menuOpen]);
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full border-b transition-shadow duration-300 ${
-        scrolled
-          ? "border-border bg-white/80 shadow-sm backdrop-blur"
-          : "border-border bg-white"
-      }`}
+      className={`site-header ${scrolled ? "site-header-scrolled" : ""}`}
     >
-      <div className="mx-auto flex h-16 w-full max-w-[1400px] items-center justify-between px-6">
-        {/* Logo mark + wordmark */}
-        <Link
-          href="/"
+      <div className="site-header-shell">
+        <a
+          href="#hero"
           aria-label="Bandesha Empire — home"
-          className="flex items-center gap-2.5 transition-opacity hover:opacity-90"
+          className="site-header-brand"
+          onClick={() => setMenuOpen(false)}
         >
-          <span className="relative block h-7 w-7 overflow-hidden sm:h-8 sm:w-8">
-            <Image
-              src="/bandesha-empire-mark.png"
-              alt=""
-              width={518}
-              height={502}
-              priority
-              unoptimized
-              className="absolute inset-0 h-full w-full object-cover object-center"
-              style={{ transform: "scale(1.1)" }}
-            />
+          <span className="site-header-mark">
+            <BrandMark className="h-full w-full" />
           </span>
-          <span className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
-            Bandesha Empire
+          <span className="site-header-wordmark">
+            <strong>Bandesha Empire</strong>
+            <small>Digital systems studio</small>
           </span>
-        </Link>
+        </a>
 
-        {/* Desktop navigation */}
-        <nav
-          aria-label="Main"
-          className="hidden items-center gap-8 md:flex"
-        >
+        <nav aria-label="Main navigation" className="site-header-nav">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="group relative text-sm font-medium text-muted transition-colors hover:text-foreground"
+              aria-current={
+                activeSection === link.sectionId ? "page" : undefined
+              }
+              className={`site-header-link ${
+                activeSection === link.sectionId
+                  ? "site-header-link-active"
+                  : ""
+              }`}
             >
               {link.label}
-              <span className="absolute -bottom-1 left-0 h-0.5 w-full origin-left scale-x-0 rounded-full bg-accent transition-transform duration-300 group-hover:scale-x-100 motion-reduce:transition-none" />
             </a>
           ))}
         </nav>
 
-        {/* Desktop CTA */}
         <a
           href="#contact"
-          className="hidden rounded-full bg-accent-dark px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-accent-deep md:inline-flex"
+          className="site-header-cta"
         >
-          Start a Project
+          <span>Start a project</span>
+          <i aria-hidden="true">
+            <svg viewBox="0 0 16 16">
+              <path d="M3.5 8h9M9 4.5 12.5 8 9 11.5" />
+            </svg>
+          </i>
         </a>
 
-        {/* Mobile menu toggle */}
         <button
           type="button"
           onClick={() => setMenuOpen((open) => !open)}
-          className="inline-flex items-center justify-center rounded-md p-2 text-foreground transition-colors hover:bg-surface md:hidden"
+          className={`site-header-menu-button ${
+            menuOpen ? "site-header-menu-button-open" : ""
+          }`}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
         >
-          {menuOpen ? (
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M18 6 6 18" />
-              <path d="m6 6 12 12" />
-            </svg>
-          ) : (
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M4 6h16" />
-              <path d="M4 12h16" />
-              <path d="M4 18h16" />
-            </svg>
-          )}
+          <span />
+          <span />
         </button>
       </div>
 
-      {/* Mobile menu panel */}
       {menuOpen && (
-        <div
-          id="mobile-menu"
-          className="border-t border-border bg-white shadow-sm md:hidden"
-        >
-          <nav
-            aria-label="Mobile"
-            className="mx-auto flex w-full max-w-[1400px] flex-col gap-1 px-6 py-4"
-          >
+        <div id="mobile-menu" className="site-header-mobile-panel">
+          <nav aria-label="Mobile navigation">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="rounded-md px-2 py-3 text-base font-medium text-foreground transition-colors hover:bg-surface"
+                aria-current={
+                  activeSection === link.sectionId ? "page" : undefined
+                }
+                className={
+                  activeSection === link.sectionId ? "is-active" : ""
+                }
               >
-                {link.label}
+                <span>{link.label}</span>
+                <small>{String(NAV_LINKS.indexOf(link) + 1).padStart(2, "0")}</small>
               </a>
             ))}
             <a
               href="#contact"
               onClick={() => setMenuOpen(false)}
-              className="mt-2 inline-flex items-center justify-center rounded-full bg-accent-dark px-4 py-3 text-base font-medium text-white shadow-sm transition-colors hover:bg-accent-deep"
+              className="site-header-mobile-cta"
             >
-              Start a Project
+              Start a project
+              <span aria-hidden="true">↗</span>
             </a>
           </nav>
         </div>

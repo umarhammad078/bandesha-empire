@@ -154,7 +154,11 @@ export default function ProcessSection() {
             </div>
           </header>
 
-          <div className="proc-deck proc-reveal" style={delayStyle(90)}>
+          <div
+            id="process-system"
+            className="proc-deck proc-reveal"
+            style={delayStyle(90)}
+          >
             <div className="proc-deck-topbar">
               <span>
                 <i aria-hidden="true" />

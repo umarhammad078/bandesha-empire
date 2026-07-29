@@ -1,100 +1,206 @@
-import Reveal from "@/components/Reveal";
+"use client";
 
-function delayStyle(ms: number): React.CSSProperties {
-  return { "--reveal-delay": `${ms}ms` } as React.CSSProperties;
+import { useCallback, useRef, useState } from "react";
+
+const REVIEWS = [
+  {
+    quote:
+      "They understood the operational problem before touching the interface. The new client portal is calmer, faster and gives our team one reliable place to work from.",
+    name: "Amelia Hart",
+    role: "Operations Director",
+    company: "Northline Advisory · United Kingdom",
+    initials: "AH",
+    service: "Client portal",
+  },
+  {
+    quote:
+      "Our automation now handles the repetitive hand-offs without hiding what is happening. We have fewer missed follow-ups and a much clearer view of every active enquiry.",
+    name: "Lucas Almeida",
+    role: "Growth Operations Lead",
+    company: "Verde Logistics · Brazil",
+    initials: "LA",
+    service: "AI & automation",
+    featured: true,
+  },
+  {
+    quote:
+      "The Shopify rebuild finally made the brand feel as considered online as it does in person. Product discovery is simpler and the team can manage content without friction.",
+    name: "Priya Nair",
+    role: "E-commerce Founder",
+    company: "Saffron & Co. · India",
+    initials: "PN",
+    service: "Shopify commerce",
+  },
+  {
+    quote:
+      "Bandesha Empire brought structure to a complicated brief. Decisions were documented, progress stayed visible and the finished platform is genuinely easy to extend.",
+    name: "Daniel Weber",
+    role: "Product Director",
+    company: "Kern Systems · Germany",
+    initials: "DW",
+    service: "Web platform",
+  },
+  {
+    quote:
+      "We did not just receive a polished website. We received a clearer story, a stronger enquiry journey and a system our internal team actually understands.",
+    name: "Hannah Brooks",
+    role: "Marketing Manager",
+    company: "Northwind Retail · Canada",
+    initials: "HB",
+    service: "Website development",
+  },
+  {
+    quote:
+      "The team connected our tools without forcing us into a rigid process. The result feels tailored to how we work today and ready for where the business is heading.",
+    name: "Omar Khalid",
+    role: "Co-founder",
+    company: "Fulfilio · United Arab Emirates",
+    initials: "OK",
+    service: "Connected systems",
+  },
+] as const;
+
+function Arrow({ direction }: { direction: "left" | "right" }) {
+  return (
+    <svg viewBox="0 0 20 20" aria-hidden="true">
+      <path
+        d={direction === "left" ? "M16 10H4m5-5-5 5 5 5" : "M4 10h12m-5-5 5 5-5 5"}
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.6"
+      />
+    </svg>
+  );
 }
 
-const OUTCOMES = [
-  {
-    kicker: "Experience",
-    title: "Clearer customer journeys",
-    body: "Visitors move from first impression to action without friction, confusion or dead ends.",
-  },
-  {
-    kicker: "Operations",
-    title: "Faster internal handoffs",
-    body: "Information moves between tools automatically, so work stops stalling on manual steps.",
-  },
-  {
-    kicker: "Engineering",
-    title: "Maintainable digital products",
-    body: "Clean structure and sensible tooling keep changes quick instead of risky.",
-  },
-  {
-    kicker: "Scale",
-    title: "Room to grow",
-    body: "New features and higher demand fit the existing foundation rather than forcing a rebuild.",
-    final: true,
-  },
-];
-
 export default function OutcomesSection() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  const goTo = useCallback((index: number) => {
+    const track = trackRef.current;
+    const card = track?.children[index] as HTMLElement | undefined;
+
+    if (!track || !card) return;
+
+    track.scrollTo({ left: card.offsetLeft - track.offsetLeft, behavior: "smooth" });
+    setActive(index);
+  }, []);
+
+  const move = (direction: -1 | 1) => {
+    const next = (active + direction + REVIEWS.length) % REVIEWS.length;
+    goTo(next);
+  };
+
+  const syncActiveCard = () => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const closest = Array.from(track.children).reduce(
+      (best, child, index) => {
+        const distance = Math.abs((child as HTMLElement).offsetLeft - track.scrollLeft);
+        return distance < best.distance ? { index, distance } : best;
+      },
+      { index: 0, distance: Number.POSITIVE_INFINITY },
+    );
+
+    setActive(closest.index);
+  };
+
   return (
-    <section
-      id="outcomes"
-      aria-labelledby="outcomes-heading"
-      className="w-full bg-background"
-    >
-      <div className="mx-auto max-w-[1400px] px-6 py-24 lg:py-32">
-        <Reveal>
-          {/* Editorial header row */}
-          <div className="grid gap-6 md:grid-cols-12 md:items-end">
-            <div className="md:col-span-7">
-              <span
-                className="rv inline-flex items-center text-xs font-semibold uppercase tracking-[0.16em] text-accent-dark"
-                style={delayStyle(0)}
-              >
-                What Changes
-              </span>
-              <h2
-                id="outcomes-heading"
-                className="rv mt-5 text-[clamp(1.9rem,1rem+2.4vw,2.75rem)] font-bold leading-[1.15] tracking-tight text-foreground"
-                style={delayStyle(80)}
-              >
-                Designed around how the business needs to run.
-              </h2>
-            </div>
-            <p
-              className="rv text-base leading-relaxed text-muted md:col-span-5"
-              style={delayStyle(160)}
-            >
-              The point of a well-built system is not the technology. It is a
-              business that runs with less friction and more control.
-            </p>
+    <section id="reviews" aria-labelledby="reviews-heading" className="reviews5-section">
+      <div className="reviews5-grid" aria-hidden="true" />
+      <div className="reviews5-shell">
+        <header className="reviews5-header">
+          <div>
+            <span className="reviews5-eyebrow">
+              <i aria-hidden="true" />
+              Client voices
+            </span>
+            <h2 id="reviews-heading">
+              The work is only good
+              <span> when it works for people.</span>
+            </h2>
           </div>
 
-          {/* Aligned outcome index — one top rule, columns divided by hairlines */}
-          <div className="mt-16 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 lg:border-t lg:border-border lg:pt-10">
-            {OUTCOMES.map((o, i) => (
-              <div
-                key={o.title}
-                className="rv border-t border-border pt-5 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0 lg:first:border-l-0 lg:first:pl-0"
-                style={delayStyle(240 + i * 90)}
+          <div className="reviews5-intro">
+            <p>
+              Clear thinking, direct communication and digital systems that keep
+              earning their place after launch.
+            </p>
+            <div className="reviews5-trustline">
+              <span>Strategy-led</span>
+              <span>Senior delivery</span>
+              <span>Built for ownership</span>
+            </div>
+          </div>
+        </header>
+
+        <div className="reviews5-rail-wrap">
+          <button
+            type="button"
+            className="reviews5-arrow reviews5-arrow-left"
+            onClick={() => move(-1)}
+            aria-label="Show previous client review"
+          >
+            <Arrow direction="left" />
+          </button>
+
+          <div
+            ref={trackRef}
+            className="reviews5-track"
+            onScroll={syncActiveCard}
+            aria-live="polite"
+          >
+            {REVIEWS.map((review, index) => (
+              <article
+                key={review.name}
+                className={`reviews5-card${"featured" in review && review.featured ? " reviews5-card-featured" : ""}`}
               >
-                <span
-                  className={`inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] ${
-                    o.final ? "text-accent-dark" : "text-muted"
-                  }`}
-                >
-                  {o.final && (
-                    <span
-                      className="rv-dot-final h-1.5 w-1.5 rounded-full"
-                      style={delayStyle(720)}
-                      aria-hidden="true"
-                    />
-                  )}
-                  {o.kicker}
+                <div className="reviews5-card-top">
+                  <div className="reviews5-stars" aria-label="Five out of five stars">
+                    {Array.from({ length: 5 }).map((_, star) => (
+                      <svg key={star} viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="m10 1.7 2.5 5.1 5.6.8-4 3.9.9 5.5-5-2.6L5 17l.9-5.5-4-3.9 5.6-.8L10 1.7Z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <span className="reviews5-service">{review.service}</span>
+                </div>
+
+                <blockquote>“{review.quote}”</blockquote>
+
+                <footer className="reviews5-person">
+                  <span className="reviews5-avatar" aria-hidden="true">
+                    {review.initials}
+                  </span>
+                  <span>
+                    <strong>{review.name}</strong>
+                    <small>{review.role}</small>
+                    <small>{review.company}</small>
+                  </span>
+                </footer>
+
+                <span className="reviews5-quote-mark" aria-hidden="true">
+                  ”
                 </span>
-                <h3 className="mt-4 text-lg font-semibold leading-snug text-foreground">
-                  {o.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted">
-                  {o.body}
-                </p>
-              </div>
+                <span className="sr-only">Review {index + 1} of {REVIEWS.length}</span>
+              </article>
             ))}
           </div>
-        </Reveal>
+
+          <button
+            type="button"
+            className="reviews5-arrow reviews5-arrow-right"
+            onClick={() => move(1)}
+            aria-label="Show next client review"
+          >
+            <Arrow direction="right" />
+          </button>
+        </div>
+
       </div>
     </section>
   );

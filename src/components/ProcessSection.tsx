@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import ProcessReveal from "@/components/ProcessReveal";
 
 function delayStyle(ms: number) {
@@ -106,6 +109,8 @@ function ArrowIcon() {
 }
 
 export default function ProcessSection() {
+  const [activeStage, setActiveStage] = useState(3);
+
   return (
     <section
       id="process"
@@ -114,7 +119,7 @@ export default function ProcessSection() {
     >
       <div className="proc-editorial-glow" aria-hidden="true" />
 
-      <div className="relative mx-auto max-w-[1500px] px-6 py-24 sm:px-8 lg:px-12 lg:py-32">
+      <div className="relative mx-auto max-w-[1500px] px-6 pt-24 pb-10 sm:px-8 lg:px-12 lg:pt-32 lg:pb-12">
         <ProcessReveal>
           <header className="proc-manifest proc-reveal" style={delayStyle(0)}>
             <div>
@@ -159,21 +164,21 @@ export default function ProcessSection() {
             className="proc-deck proc-reveal"
             style={delayStyle(90)}
           >
-            <div className="proc-deck-topbar">
-              <span>
-                <i aria-hidden="true" />
-                Project operating system
-              </span>
-              <span>Strategy · Experience · Engineering · Evolution</span>
-            </div>
-
             <ol className="proc-chapters">
               {PROCESS_STAGES.map((stage, index) => (
                 <li
                   key={stage.number}
-                  className="proc-chapter proc-stage"
+                  className={`proc-chapter proc-stage${activeStage === index ? " is-active" : ""}`}
                   style={delayStyle(170 + index * 95)}
                 >
+                  <button
+                    type="button"
+                    className="proc-chapter-selector"
+                    onClick={() => setActiveStage(index)}
+                    aria-label={`Select ${stage.title} process stage`}
+                    aria-pressed={activeStage === index}
+                  />
+
                   <div className="proc-chapter-top">
                     <span className="proc-chapter-number" aria-hidden="true">
                       {stage.number}
@@ -203,7 +208,7 @@ export default function ProcessSection() {
               {PROCESS_STAGES.map((stage, index) => (
                 <span
                   key={stage.number}
-                  className="proc-deck-progress-segment"
+                  className={`proc-deck-progress-segment${activeStage === index ? " is-active" : ""}`}
                   style={delayStyle(400 + index * 120)}
                 />
               ))}

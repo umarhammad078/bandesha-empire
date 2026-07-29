@@ -18,10 +18,8 @@ type Project = {
   summary: string;
   image: string;
   imageAlt: string;
-  domain: string;
   cta: string;
   tags: readonly string[];
-  reversed?: boolean;
 };
 
 const PROJECTS: readonly Project[] = [
@@ -31,10 +29,9 @@ const PROJECTS: readonly Project[] = [
     title: "An AI agent that turns questions into action.",
     summary:
       "A connected support workspace that retrieves approved knowledge, completes routine workflows and hands complex cases to the right person with full context.",
-    image: "/projects/ai-agent-console.png",
+    image: "/projects/ai-automation-editorial.png",
     imageAlt:
-      "Concept interface for an AI support agent with conversation context, workflow actions and an activity timeline.",
-    domain: "agent-workspace.preview",
+      "Professional using an AI automation workflow on a laptop in a dark studio workspace.",
     cta: "Build an AI agent",
     tags: ["Knowledge retrieval", "Workflow actions", "Human hand-off"],
   },
@@ -44,13 +41,11 @@ const PROJECTS: readonly Project[] = [
     title: "A high-performing website built to earn trust.",
     summary:
       "Clear positioning, purposeful journeys and dependable engineering connect discovery, qualification and enquiry without unnecessary friction.",
-    image: "/projects/website-development-v2.png",
+    image: "/projects/website-development-editorial.png",
     imageAlt:
-      "Concept website for an architecture and property advisory company with an editorial hero and featured projects.",
-    domain: "property-studio.preview",
+      "Modern website development workspace with a dark code editor and refined digital canvas.",
     cta: "Plan your website",
     tags: ["Strategy-led UX", "CMS & integrations", "Performance-first"],
-    reversed: true,
   },
   {
     number: "03",
@@ -58,10 +53,9 @@ const PROJECTS: readonly Project[] = [
     title: "A Shopify store built for confident buying.",
     summary:
       "Focused merchandising, fast product discovery and a streamlined purchase journey create a storefront customers trust and teams can operate.",
-    image: "/projects/shopify-storefront-v2.png",
+    image: "/projects/shopify-commerce-editorial.png",
     imageAlt:
-      "Concept Shopify storefront for a natural skincare range with product discovery, cart and checkout details.",
-    domain: "commerce-store.preview",
+      "Premium skincare products arranged beside a tablet displaying an ecommerce product gallery.",
     cta: "Build your Shopify store",
     tags: ["Storefront UX", "Conversion architecture", "Operations integration"],
   },
@@ -71,13 +65,11 @@ const PROJECTS: readonly Project[] = [
     title: "A client portal for every decision and next action.",
     summary:
       "A secure shared workspace gives clients and teams a clear view of progress, approvals, documents and next actions—without scattered email threads.",
-    image: "/projects/client-portal-v1.png",
+    image: "/projects/client-portal-editorial.png",
     imageAlt:
-      "Original concept interface for a secure client portal with project stages, shared documents, approvals and next actions.",
-    domain: "client-portal.preview",
+      "Two professionals reviewing a clean project dashboard on a laptop during a client meeting.",
     cta: "Plan your web application",
     tags: ["Role-based access", "Approval workflows", "Secure document hub"],
-    reversed: true,
   },
   {
     number: "05",
@@ -85,10 +77,9 @@ const PROJECTS: readonly Project[] = [
     title: "An operations workflow that keeps work moving.",
     summary:
       "Forms, approvals, notifications and task hand-offs connect into one visible process, while exceptions stay with the people best placed to decide.",
-    image: "/projects/operations-workflow-v1.png",
+    image: "/projects/workflow-automation-editorial.png",
     imageAlt:
-      "Original concept interface for a field operations workflow with work orders, scheduling, assignments and exception handling.",
-    domain: "operations-flow.preview",
+      "Business operator using a tablet with a connected approvals and workflow diagram.",
     cta: "Automate your operations",
     tags: ["Workflow orchestration", "Approval routing", "Exception handling"],
   },
@@ -98,19 +89,13 @@ const PROJECTS: readonly Project[] = [
     title: "An integration hub for one dependable data flow.",
     summary:
       "APIs, databases and third-party tools synchronize through a monitored connection layer, reducing duplicate entry and keeping teams aligned.",
-    image: "/projects/integration-hub-v1.png",
+    image: "/projects/connected-systems-editorial.png",
     imageAlt:
-      "Original concept interface for an integration control centre with connected data sources, field mappings and deployment controls.",
-    domain: "integration-hub.preview",
+      "Enterprise server hardware connected by restrained green data-light paths.",
     cta: "Connect your systems",
     tags: ["API integrations", "Data synchronization", "Monitoring & recovery"],
-    reversed: true,
   },
 ] as const;
-
-type ProjectStyle = CSSProperties & {
-  "--post-progress"?: string;
-};
 
 function revealStyle(delay: number): CSSProperties {
   return { "--reveal-delay": `${delay}ms` } as CSSProperties;
@@ -124,15 +109,6 @@ function ArrowIcon({ direction = "right" }: { direction?: "left" | "right" }) {
       className={direction === "left" ? "is-left" : undefined}
     >
       <path d="M3.5 10h13M11.5 5l5 5-5 5" />
-    </svg>
-  );
-}
-
-function LockIcon() {
-  return (
-    <svg viewBox="0 0 16 16" aria-hidden="true">
-      <rect x="3.5" y="7" width="9" height="6.5" rx="2" />
-      <path d="M5.5 7V5.3a2.5 2.5 0 0 1 5 0V7" />
     </svg>
   );
 }
@@ -223,10 +199,6 @@ export default function PostSliderSection() {
     }
   }
 
-  const progressStyle: ProjectStyle = {
-    "--post-progress": `${((active + 1) / PROJECTS.length) * 100}%`,
-  };
-
   return (
     <section
       id="portfolio"
@@ -235,54 +207,20 @@ export default function PostSliderSection() {
     >
       <div className="post5-wrap">
         <Reveal threshold={0.08}>
-          <header className="post5-intro rv" style={revealStyle(0)}>
-            <div className="post5-heading-block">
-              <span className="post5-kicker">Selected builds / 06</span>
-              <h2 id="post-slider-heading">
-                Six specialist builds. <span>One standard of execution.</span>
-              </h2>
+          <header className="post5-index-bar rv" style={revealStyle(0)}>
+            <div className="post5-index-title">
+              <span>Project archive / {PROJECTS.length.toString().padStart(2, "0")}</span>
+              <h2 id="post-slider-heading">Selected work.</h2>
             </div>
 
-            <div className="post5-intro-side">
-              <p>
-                Representative product studies spanning AI agents, websites,
-                commerce, client portals, workflow automation and connected systems.
-              </p>
+            <p className="post5-index-intro">
+              Six focused builds across AI, websites, commerce and connected
+              business systems.
+            </p>
 
-              <div className="post5-status-row">
-                <span className="post5-counter" aria-hidden="true">
-                  {String(active + 1).padStart(2, "0")}
-                  <i>/</i>
-                  {String(PROJECTS.length).padStart(2, "0")}
-                </span>
-
-                <div className="post5-controls">
-                  <button
-                    type="button"
-                    onClick={() => goTo(targetIndexRef.current - 1)}
-                    aria-label="Show previous build"
-                    aria-controls="post-slider-rail"
-                  >
-                    <ArrowIcon direction="left" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => goTo(targetIndexRef.current + 1)}
-                    aria-label="Show next build"
-                    aria-controls="post-slider-rail"
-                  >
-                    <ArrowIcon />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="post5-progress" style={progressStyle} aria-hidden="true">
-              <span />
-            </div>
           </header>
 
-          <div className="post5-slider rv" style={revealStyle(100)}>
+          <div className="post5-slider rv" style={revealStyle(80)}>
             <div
               id="post-slider-rail"
               ref={railRef}
@@ -301,58 +239,40 @@ export default function PostSliderSection() {
                     ref={(element) => {
                       cardRefs.current[index] = element;
                     }}
-                    className={`post5-card ${project.reversed ? "is-reversed" : ""} ${
-                      index === active ? "is-active" : ""
-                    }`}
+                    className={`post5-card ${index === active ? "is-active" : ""}`}
                     aria-roledescription="slide"
                     aria-label={`${index + 1} of ${PROJECTS.length}: ${project.title}`}
                   >
                     <div className="post5-visual">
-                      <div className="post5-browser-bar" aria-hidden="true">
-                        <span className="post5-browser-dots">
-                          <i />
-                          <i />
-                          <i />
-                        </span>
-                        <span className="post5-browser-address">
-                          <LockIcon />
-                          {project.domain}
-                        </span>
-                        <span className="post5-concept-label">
-                          Original concept interface
-                        </span>
-                      </div>
                       <div className="post5-image-wrap">
                         <Image
                           src={project.image}
                           alt={project.imageAlt}
                           width={1536}
                           height={1024}
-                          sizes="(max-width: 767px) calc(100vw - 3.75rem), (max-width: 1199px) 86vw, (max-width: 1599px) 52vw, 730px"
+                          sizes="(max-width: 767px) calc(100vw - 3.25rem), (max-width: 1199px) 42vw, min(29vw, 432px)"
+                          loading={index < 3 ? "eager" : "lazy"}
                           className="post5-project-image"
                         />
+                        <span className="post5-concept-label">
+                          Concept build {project.number}
+                        </span>
                       </div>
                     </div>
 
                     <div className="post5-card-copy">
                       <div className="post5-meta">
                         <span>{project.category}</span>
-                        <span>Build {project.number}</span>
+                        <span>{project.tags[0]}</span>
                       </div>
                       <h3>{project.title}</h3>
                       <p>{project.summary}</p>
 
-                      <ul className="post5-tags" aria-label="Included capabilities">
-                        {project.tags.map((tag) => (
-                          <li key={tag}>{tag}</li>
-                        ))}
-                      </ul>
-
                       <div className="post5-card-foot">
                         <a
                           href="#contact"
-                          tabIndex={index === active ? 0 : -1}
                           aria-label={`${project.cta}: ${project.title}`}
+                          onFocus={() => goTo(index, "auto")}
                         >
                           {project.cta}
                           <ArrowIcon />
@@ -362,6 +282,27 @@ export default function PostSliderSection() {
                   </article>
                 );
               })}
+            </div>
+
+            <div className="post5-floating-controls">
+              <button
+                type="button"
+                className="post5-floating-prev"
+                onClick={() => goTo(targetIndexRef.current - 1)}
+                aria-label="Show previous build"
+                aria-controls="post-slider-rail"
+              >
+                <ArrowIcon direction="left" />
+              </button>
+              <button
+                type="button"
+                className="post5-floating-next"
+                onClick={() => goTo(targetIndexRef.current + 1)}
+                aria-label="Show next build"
+                aria-controls="post-slider-rail"
+              >
+                <ArrowIcon />
+              </button>
             </div>
 
             <p className="sr-only" aria-live="polite" aria-atomic="true">

@@ -83,18 +83,23 @@ function BabyRobot() {
       <defs>
         <linearGradient id="babybot-shell" x1="170" y1="118" x2="372" y2="478" gradientUnits="userSpaceOnUse">
           <stop stopColor="#FFFFFF" />
-          <stop offset="0.18" stopColor="#EEF2F4" />
-          <stop offset="0.42" stopColor="#AEB8BF" />
-          <stop offset="0.58" stopColor="#F9FBFC" />
-          <stop offset="0.78" stopColor="#C3CBD0" />
-          <stop offset="1" stopColor="#8F9AA1" />
+          <stop offset="0.12" stopColor="#F7F9FA" />
+          <stop offset="0.27" stopColor="#AEB9C0" />
+          <stop offset="0.39" stopColor="#66737B" />
+          <stop offset="0.5" stopColor="#FFFFFF" />
+          <stop offset="0.64" stopColor="#DCE2E6" />
+          <stop offset="0.78" stopColor="#818D95" />
+          <stop offset="0.9" stopColor="#EEF2F4" />
+          <stop offset="1" stopColor="#58656D" />
         </linearGradient>
         <linearGradient id="babybot-shell-edge" x1="188" y1="166" x2="360" y2="376" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#88949B" />
-          <stop offset="0.32" stopColor="#E7EBEE" />
-          <stop offset="0.58" stopColor="#FFFFFF" />
-          <stop offset="0.8" stopColor="#B1BBC1" />
-          <stop offset="1" stopColor="#727E85" />
+          <stop stopColor="#4E5B63" />
+          <stop offset="0.18" stopColor="#E9EEF1" />
+          <stop offset="0.36" stopColor="#77848C" />
+          <stop offset="0.54" stopColor="#FFFFFF" />
+          <stop offset="0.72" stopColor="#9EAAB1" />
+          <stop offset="0.9" stopColor="#E5E9EC" />
+          <stop offset="1" stopColor="#4C5961" />
         </linearGradient>
         <linearGradient id="babybot-rim" x1="174" y1="121" x2="365" y2="301" gradientUnits="userSpaceOnUse">
           <stop stopColor="#F8FAFB" />
@@ -117,11 +122,13 @@ function BabyRobot() {
           <stop offset="1" stopColor="#0A0D0B" stopOpacity="0" />
         </linearGradient>
         <linearGradient id="babybot-brushed" x1="211" y1="349" x2="333" y2="448" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#8E999F" />
-          <stop offset="0.2" stopColor="#E9EDF0" />
-          <stop offset="0.42" stopColor="#A9B3B9" />
-          <stop offset="0.67" stopColor="#F7F9FA" />
-          <stop offset="1" stopColor="#929DA4" />
+          <stop stopColor="#56636A" />
+          <stop offset="0.16" stopColor="#F4F7F8" />
+          <stop offset="0.34" stopColor="#89959C" />
+          <stop offset="0.52" stopColor="#D8DEE2" />
+          <stop offset="0.7" stopColor="#FFFFFF" />
+          <stop offset="0.84" stopColor="#A3AEB4" />
+          <stop offset="1" stopColor="#5F6C73" />
         </linearGradient>
         <linearGradient id="babybot-dark-metal" x1="225" y1="365" x2="317" y2="435" gradientUnits="userSpaceOnUse">
           <stop stopColor="#4A555B" />
@@ -131,6 +138,13 @@ function BabyRobot() {
         <linearGradient id="babybot-green" x1="214" y1="300" x2="330" y2="440" gradientUnits="userSpaceOnUse">
           <stop stopColor="#6DD875" />
           <stop offset="1" stopColor="#32983B" />
+        </linearGradient>
+        <linearGradient id="babybot-chrome-glint" x1="185" y1="126" x2="350" y2="470" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#FFFFFF" stopOpacity="0.78" />
+          <stop offset="0.22" stopColor="#FFFFFF" stopOpacity="0.08" />
+          <stop offset="0.48" stopColor="#DCE5EA" stopOpacity="0.36" />
+          <stop offset="0.68" stopColor="#FFFFFF" stopOpacity="0.04" />
+          <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.52" />
         </linearGradient>
         <radialGradient id="babybot-face" cx="0" cy="0" r="1" gradientTransform="translate(250 180) rotate(52) scale(183 145)" gradientUnits="userSpaceOnUse">
           <stop stopColor="#2C332D" />
@@ -193,13 +207,11 @@ function BabyRobot() {
           <rect x="134" y="169" width="43" height="84" rx="20" fill="url(#babybot-shell-edge)" />
           <rect x="143" y="187" width="18" height="48" rx="9" fill="#768188" />
           <path d="M149 194V228" stroke="#D9DEE1" strokeWidth="3" strokeLinecap="round" opacity="0.65" />
-          <circle cx="152" cy="211" r="5" fill="#46B84F" />
         </g>
         <g className="babybot-ear babybot-ear-right">
           <rect x="363" y="169" width="43" height="84" rx="20" fill="url(#babybot-shell-edge)" />
           <rect x="379" y="187" width="18" height="48" rx="9" fill="#768188" />
           <path d="M385 194V228" stroke="#D9DEE1" strokeWidth="3" strokeLinecap="round" opacity="0.65" />
-          <circle cx="388" cy="211" r="5" fill="#46B84F" />
         </g>
 
         <rect
@@ -227,6 +239,20 @@ function BabyRobot() {
           strokeWidth="12"
           strokeLinecap="round"
           opacity="0.74"
+        />
+        <path
+          d="M176 191C168 221 176 260 203 281"
+          stroke="url(#babybot-chrome-glint)"
+          strokeWidth="4"
+          strokeLinecap="round"
+          opacity="0.68"
+        />
+        <path
+          d="M347 137C369 161 375 205 363 239"
+          stroke="#FFFFFF"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          opacity="0.34"
         />
         <path d="M184 167C175 192 175 229 185 253" stroke="#7F8A91" strokeWidth="3" strokeLinecap="round" opacity="0.5" />
         <path d="M356 167C365 192 365 229 355 253" stroke="#7F8A91" strokeWidth="3" strokeLinecap="round" opacity="0.5" />
@@ -312,6 +338,18 @@ function BabyRobot() {
             strokeLinecap="round"
             opacity="0.72"
           />
+          <path
+            d="M199 350C226 328 300 323 335 351C296 342 251 356 218 395C207 383 201 367 199 350Z"
+            fill="url(#babybot-chrome-glint)"
+            opacity="0.42"
+          />
+          <path
+            d="M342 360C355 390 354 438 338 467"
+            stroke="#FFFFFF"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            opacity="0.28"
+          />
           <path d="M190 379V439" stroke="#7B878E" strokeWidth="3" strokeLinecap="round" opacity="0.46" />
           <path d="M350 379V439" stroke="#7B878E" strokeWidth="3" strokeLinecap="round" opacity="0.46" />
           <path d="M194 387H202M194 400H202M194 413H202" stroke="#657178" strokeWidth="4" strokeLinecap="round" />
@@ -329,8 +367,6 @@ function BabyRobot() {
           <circle cx="311" cy="370" r="3.5" fill="#DDE2E5" />
           <circle cx="229" cy="429" r="3.5" fill="#657178" />
           <circle cx="311" cy="429" r="3.5" fill="#657178" />
-          <circle className="babybot-chest-light" cx="331" cy="460" r="6" fill="#46B84F" />
-          <circle cx="310" cy="460" r="6" fill="#89949B" />
         </g>
 
         <g className="babybot-rest-arm">
@@ -391,6 +427,8 @@ function BabyRobot() {
           <path d="M201 542H252" stroke="#68747B" strokeWidth="4" strokeLinecap="round" />
           <path d="M290 542H341" stroke="#68747B" strokeWidth="4" strokeLinecap="round" />
           <path d="M205 525H246M293 525H334" stroke="white" strokeWidth="3" strokeLinecap="round" opacity="0.5" />
+          <path d="M194 533C209 522 246 521 260 532" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.28" />
+          <path d="M282 533C297 522 333 521 348 532" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.28" />
         </g>
       </g>
     </svg>

@@ -1,7 +1,17 @@
 import Reveal from "@/components/Reveal";
 
-function delayStyle(ms: number): React.CSSProperties {
-  return { "--reveal-delay": `${ms}ms` } as React.CSSProperties;
+function ArrowIcon() {
+  return (
+    <svg viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path
+        d="M3.5 9h11M10.5 5l4 4-4 4"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+      />
+    </svg>
+  );
 }
 
 export default function CtaSection() {
@@ -9,79 +19,52 @@ export default function CtaSection() {
     <section
       id="pricing"
       aria-labelledby="cta-heading"
-      className="w-full bg-background"
+      className="cta-final-section"
     >
-      <div className="mx-auto max-w-[1400px] px-6 py-20 lg:py-28">
-        <Reveal>
-          <div className="rv relative border border-border bg-white px-6 py-14 sm:px-12 sm:py-16 lg:px-20">
-            {/* registration corner marks */}
-            <span
-              className="pointer-events-none absolute -left-1.5 -top-1.5 hidden h-3.5 w-3.5 border-l border-t border-border sm:block"
-              aria-hidden="true"
-            />
-            <span
-              className="pointer-events-none absolute -right-1.5 -top-1.5 hidden h-3.5 w-3.5 border-r border-t border-border sm:block"
-              aria-hidden="true"
-            />
-            <span
-              className="pointer-events-none absolute -bottom-1.5 -left-1.5 hidden h-3.5 w-3.5 border-b border-l border-border sm:block"
-              aria-hidden="true"
-            />
-            <span
-              className="pointer-events-none absolute -bottom-1.5 -right-1.5 hidden h-3.5 w-3.5 border-b border-r border-border sm:block"
-              aria-hidden="true"
-            />
+      <Reveal>
+        <div className="rv cta-final-panel">
+          <span id="contact" className="cta-final-contact-anchor" aria-hidden="true" />
+          <span className="cta-final-orbit" aria-hidden="true" />
+          <span className="cta-final-sheen" aria-hidden="true" />
 
-            <div className="max-w-2xl">
-              {/* thin green route leading toward the CTA */}
-              <span
-                className="rv-line-x block h-px w-16 origin-left bg-accent"
-                style={delayStyle(120)}
-                aria-hidden="true"
-              />
+          <div className="cta-final-content">
+            <span className="cta-final-rule" aria-hidden="true" />
+            <span className="cta-final-eyebrow">Ready when you are</span>
 
-              <span
-                className="rv mt-6 inline-flex items-center text-xs font-semibold uppercase tracking-[0.16em] text-accent-dark"
-                style={delayStyle(60)}
-              >
-                Start the Next Build
-              </span>
-              <h2
-                id="cta-heading"
-                className="rv mt-5 text-[clamp(2rem,1.1rem+2.6vw,3rem)] font-bold leading-[1.12] tracking-tight text-foreground"
-                style={delayStyle(140)}
-              >
-                Build the system your business needs next.
-              </h2>
-              <p
-                className="rv mt-5 text-base leading-relaxed text-muted sm:text-lg"
-                style={delayStyle(220)}
-              >
-                Tell us what you are trying to improve, launch or connect. We
-                will help turn it into a clear technical plan.
-              </p>
+            <h2 id="cta-heading">
+              Let&apos;s build the system
+              <span> your business can grow into.</span>
+            </h2>
 
-              <div
-                className="rv mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
-                style={delayStyle(300)}
-              >
-                <a
-                  href="#contact"
-                  className="inline-flex items-center justify-center rounded-lg bg-accent-dark px-6 py-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-accent-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-dark focus-visible:ring-offset-2"
-                >
-                  Start a Project
-                </a>
-                <a
-                  href="#services"
-                  className="inline-flex items-center justify-center rounded-lg border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent-dark hover:text-accent-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-dark focus-visible:ring-offset-2"
-                >
-                  Explore Services
-                </a>
-              </div>
+            <p>
+              Tell us where the work is slowing down—or where you want to go next.
+              We&apos;ll return with a clear point of view, a practical scope and the
+              right next step.
+            </p>
+
+            <div className="cta-final-actions">
+              <a href="#contact" className="cta-final-primary">
+                <span>Start a project</span>
+                <i aria-hidden="true">
+                  <ArrowIcon />
+                </i>
+              </a>
+              <a href="#contact" className="cta-final-secondary">
+                <span>Discuss your vision</span>
+                <i aria-hidden="true">
+                  <ArrowIcon />
+                </i>
+              </a>
+            </div>
+
+            <div className="cta-final-assurances" aria-label="How we work">
+              <span><i aria-hidden="true" />Clear scope</span>
+              <span><i aria-hidden="true" />Senior-led delivery</span>
+              <span><i aria-hidden="true" />Built to evolve</span>
             </div>
           </div>
-        </Reveal>
-      </div>
+        </div>
+      </Reveal>
     </section>
   );
 }

@@ -1,5 +1,3 @@
-import BrandMark from "@/components/BrandMark";
-
 const FOOTER_LINKS = [
   { label: "Home", href: "#hero" },
   { label: "Services", href: "#services" },
@@ -12,38 +10,72 @@ export default function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="w-full border-t border-border bg-background">
-      <div className="mx-auto max-w-[1400px] px-6 py-14">
-        <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
-          {/* Brand */}
-          <div className="max-w-sm">
-            <div className="flex items-center gap-2.5">
-              <span className="relative block h-7 w-7">
-                <BrandMark className="h-full w-full" />
-              </span>
-              <span className="text-lg font-semibold tracking-tight text-foreground">
-                Bandesha Empire
+    <footer id="footer" className="site-footer">
+      <div className="site-footer-ambient" aria-hidden="true" />
+      <div className="site-footer-shell">
+        <div className="site-footer-directory">
+          <div className="site-footer-studio">
+            <span>Studio</span>
+            <strong>Pakistan · Working worldwide</strong>
+            <p>Direct remote collaboration, clear ownership and senior delivery.</p>
+
+            <div className="site-footer-leadership">
+              <i aria-hidden="true">UH</i>
+              <span>
+                <small>Chief Executive Officer</small>
+                <b>Umar Hammad</b>
               </span>
             </div>
-            <p className="mt-4 text-sm leading-relaxed text-muted">
-              A digital studio building websites, automations and connected
-              systems that help businesses run with clarity.
-            </p>
+
+            <div className="site-footer-contact" aria-label="Contact Bandesha Empire">
+              <a href="mailto:bandeshaempire@gmail.com">
+                <i aria-hidden="true">
+                  <svg viewBox="0 0 20 20">
+                    <rect x="2.5" y="4" width="15" height="12" rx="2.5" />
+                    <path d="m4 6 6 4.8L16 6" />
+                  </svg>
+                </i>
+                <span>
+                  <small>Email</small>
+                  <b>bandeshaempire@gmail.com</b>
+                </span>
+                <svg className="site-footer-contact-arrow" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" />
+                </svg>
+              </a>
+
+              <a
+                href="https://wa.me/923023634078"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i aria-hidden="true">
+                  <svg viewBox="0 0 20 20">
+                    <path d="M16.3 13.9a7.1 7.1 0 1 0-2.5 2.1l3.5.7-1-2.8Z" />
+                    <path d="M7.1 6.7c.2-.4.4-.4.7-.4h.4c.1 0 .3 0 .4.4l.7 1.7c.1.2 0 .4-.1.5l-.5.6c-.2.2-.1.4 0 .6.5.9 1.2 1.6 2.1 2.1.2.1.4.2.6 0l.7-.8c.2-.2.4-.2.6-.1l1.7.8c.2.1.4.2.4.4 0 .2-.1 1.1-.6 1.5-.4.5-1 .7-1.7.7-.5 0-1.2-.1-2.1-.5-1.1-.5-4.5-1.7-6.1-5.9-.4-1-.1-1.5.1-1.9Z" />
+                  </svg>
+                </i>
+                <span>
+                  <small>WhatsApp</small>
+                  <b>+92 302 363 4078</b>
+                </span>
+                <svg className="site-footer-contact-arrow" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" />
+                </svg>
+              </a>
+            </div>
           </div>
 
-          {/* Navigation */}
-          <nav aria-label="Footer">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">
-              Navigate
-            </h2>
-            <ul className="mt-4 flex flex-col gap-3">
+          <nav className="site-footer-nav" aria-label="Footer navigation">
+            <span>Explore</span>
+            <ul>
               {FOOTER_LINKS.map((link) => (
                 <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="text-sm font-medium text-foreground transition-colors hover:text-accent-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-dark focus-visible:ring-offset-2"
-                  >
-                    {link.label}
+                  <a href={link.href}>
+                    <span>{link.label}</span>
+                    <svg viewBox="0 0 16 16" aria-hidden="true">
+                      <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" />
+                    </svg>
                   </a>
                 </li>
               ))}
@@ -51,13 +83,13 @@ export default function SiteFooter() {
           </nav>
         </div>
 
-        <div className="mt-12 flex flex-col gap-2 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-muted">
-            © {year} Bandesha Empire. All rights reserved.
-          </p>
-          <p className="text-xs text-muted">
-            Built with intention. Maintained with care.
-          </p>
+        <div className="site-footer-wordmark" aria-hidden="true">
+          Bandesha Empire
+        </div>
+
+        <div className="site-footer-bottom">
+          <p>© {year} Bandesha Empire. All rights reserved.</p>
+          <p>Built with intention. Maintained with care.</p>
         </div>
       </div>
     </footer>

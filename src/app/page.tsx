@@ -1,4 +1,5 @@
 import HeroSection from "@/components/HeroSection";
+import HeroStackTicker from "@/components/HeroStackTicker";
 import ServicesSection from "@/components/ServicesSection";
 import ProcessSection from "@/components/ProcessSection";
 import AboutSection from "@/components/AboutSection";
@@ -7,7 +8,6 @@ import PostSliderSection from "@/components/PostSliderSection";
 import OutcomesSection from "@/components/OutcomesSection";
 import CapabilitiesSection from "@/components/CapabilitiesSection";
 import CtaSection from "@/components/CtaSection";
-import ContactSection from "@/components/ContactSection";
 import SiteFooter from "@/components/SiteFooter";
 
 export default function Home() {
@@ -15,15 +15,15 @@ export default function Home() {
     <>
       <main className="flex-1">
         <HeroSection />
+        <HeroStackTicker />
         <ServicesSection />
+        <PostSliderSection />
         <ProcessSection />
         <AboutSection />
         <SystemMapSection />
-        <PostSliderSection />
         <OutcomesSection />
         <CapabilitiesSection />
         <CtaSection />
-        <ContactSection />
       </main>
       <SiteFooter />
     </>

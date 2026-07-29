@@ -9,7 +9,11 @@ type SystemLayer = {
 
 type SystemStyle = React.CSSProperties & {
   "--sys-delay"?: string;
+  "--sys-char-index"?: number;
 };
+
+const SYSTEM_HEADING_FIRST = "We bring your business together";
+const SYSTEM_HEADING_SECOND = "in one connected system.";
 
 const LAYERS: SystemLayer[] = [
   {
@@ -47,18 +51,13 @@ const LAYERS: SystemLayer[] = [
 const PRINCIPLES = [
   {
     number: "01",
-    title: "One source of truth",
-    body: "Information enters once, stays reliable and remains useful everywhere it needs to go.",
+    title: "One connected operating system",
+    body: "Your website, workflows, data and tools work from one dependable foundation—giving every team a clearer view and every decision better context.",
   },
   {
     number: "02",
-    title: "Work moves automatically",
-    body: "Routine hand-offs happen in the background while your team stays focused on decisions.",
-  },
-  {
-    number: "03",
-    title: "Growth without rebuilds",
-    body: "New tools, channels and workflows connect to the same foundation as the business evolves.",
+    title: "A foundation built to evolve",
+    body: "New services, channels and automations connect to the same architecture, so growth adds capability without adding chaos or forcing a rebuild.",
   },
 ];
 
@@ -66,7 +65,6 @@ const PATHS = [
   "M500 300C408 300 344 132 244 132",
   "M500 300C402 300 342 448 244 448",
   "M500 300C590 300 646 132 755 132",
-  "M500 300H755",
   "M500 300C592 300 650 448 755 448",
 ];
 
@@ -80,6 +78,47 @@ function currentStyle(index: number): SystemStyle {
   return {
     "--sys-delay": `${index * -640}ms`,
   };
+}
+
+function AnimatedHeadingLine({
+  text,
+  accent = false,
+  startIndex = 0,
+}: {
+  text: string;
+  accent?: boolean;
+  startIndex?: number;
+}) {
+  let characterIndex = startIndex;
+
+  return (
+    <span
+      className={`sys5-heading-line${accent ? " sys5-heading-accent" : ""}`}
+      aria-hidden="true"
+    >
+      {text.split(" ").map((word, wordIndex) => (
+        <span key={`${word}-${wordIndex}`}>
+          {wordIndex > 0 ? " " : null}
+          <span className="sys5-heading-word">
+            {Array.from(word).map((character, index) => {
+              const animationIndex = characterIndex;
+              characterIndex += 1;
+
+              return (
+                <span
+                  className="sys5-heading-character"
+                  style={{ "--sys-char-index": animationIndex } as SystemStyle}
+                  key={`${character}-${index}`}
+                >
+                  {character}
+                </span>
+              );
+            })}
+          </span>
+        </span>
+      ))}
+    </span>
+  );
 }
 
 function LayerGlyph({ type }: { type: SystemLayer["key"] }) {
@@ -167,10 +206,6 @@ function OperatingCore() {
           <circle cx="32" cy="32" r="7" />
           <path d="m18 21 14 11 14-11M32 32v19" />
         </svg>
-        <span className="sys5-core-live">
-          <i aria-hidden="true" />
-          Core live
-        </span>
       </div>
       <div className="sys5-core-copy">
         <small>Operating core</small>
@@ -191,38 +226,18 @@ export default function SystemMapSection() {
       <div className="sys5-wrap">
         <Reveal threshold={0.08}>
           <div className="sys5-intro">
-            <div>
-              <span className="sys5-kicker rv" style={revealStyle(0)}>
-                <i aria-hidden="true">
-                  <span />
-                  <span />
-                </i>
-                Connected operations / 05
-              </span>
-              <h2 id="system-heading" className="sys5-heading rv" style={revealStyle(70)}>
-                <span className="sys5-heading-line">Your business</span>
-                <span className="sys5-heading-line">should feel like</span>
-                <span className="sys5-heading-line sys5-heading-accent">one system.</span>
-              </h2>
-            </div>
-
-            <div className="sys5-intro-copy rv" style={revealStyle(150)}>
-              <p>
-                We connect your customer experience, automation, data,
-                integrations and ongoing support into one shared architecture—so
-                every improvement strengthens the whole operation.
-              </p>
-              <dl className="sys5-metrics">
-                <div>
-                  <dt>05</dt>
-                  <dd>Live layers</dd>
-                </div>
-                <div>
-                  <dt>01</dt>
-                  <dd>Accountable partner</dd>
-                </div>
-              </dl>
-            </div>
+            <h2
+              id="system-heading"
+              className="sys5-heading"
+              aria-label={`${SYSTEM_HEADING_FIRST} ${SYSTEM_HEADING_SECOND}`}
+            >
+              <AnimatedHeadingLine text={SYSTEM_HEADING_FIRST} />
+              <AnimatedHeadingLine
+                text={SYSTEM_HEADING_SECOND}
+                accent
+                startIndex={SYSTEM_HEADING_FIRST.replaceAll(" ", "").length}
+              />
+            </h2>
           </div>
 
           <div
@@ -288,7 +303,6 @@ export default function SystemMapSection() {
           <ol className="sys5-principles">
             {PRINCIPLES.map((principle, index) => (
               <li className="rv" style={revealStyle(360 + index * 90)} key={principle.number}>
-                <span>{principle.number}</span>
                 <div>
                   <h3>{principle.title}</h3>
                   <p>{principle.body}</p>

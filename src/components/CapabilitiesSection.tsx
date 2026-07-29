@@ -1,87 +1,130 @@
 import Reveal from "@/components/Reveal";
 
-function delayStyle(ms: number): React.CSSProperties {
-  return { "--reveal-delay": `${ms}ms` } as React.CSSProperties;
-}
+type StackStyle = React.CSSProperties & {
+  "--reveal-delay"?: string;
+};
 
-const GROUPS = [
+const STACK_GROUPS = [
   {
-    label: "Frameworks",
-    items: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+    code: "FE",
+    label: "Frontend",
+    descriptor: "Experience layer",
+    items: [
+      { mark: "NX", name: "Next.js" },
+      { mark: "RE", name: "React" },
+      { mark: "TS", name: "TypeScript" },
+      { mark: "TW", name: "Tailwind CSS" },
+    ],
   },
   {
-    label: "Data & Infrastructure",
-    items: ["Supabase", "Vercel", "API Integrations"],
+    code: "DB",
+    label: "Backend & Data",
+    descriptor: "Application core",
+    items: [
+      { mark: "SB", name: "Supabase" },
+      { mark: "PG", name: "PostgreSQL" },
+      { mark: "JS", name: "Node.js" },
+      { mark: "API", name: "API Integrations" },
+    ],
   },
   {
-    label: "Systems",
-    items: ["AI Workflows", "Automation", "Custom Dashboards"],
+    code: "CM",
+    label: "Commerce",
+    descriptor: "Selling systems",
+    items: [
+      { mark: "SH", name: "Shopify" },
+      { mark: "ST", name: "Stripe" },
+      { mark: "CMS", name: "Headless CMS" },
+      { mark: "CP", name: "Custom Portals" },
+    ],
   },
   {
-    label: "Practices",
-    items: ["Performance", "Accessibility", "Responsive Design"],
+    code: "AI",
+    label: "AI & Automation",
+    descriptor: "Intelligence layer",
+    items: [
+      { mark: "OA", name: "OpenAI APIs" },
+      { mark: "AG", name: "AI Agents" },
+      { mark: "N8", name: "n8n Workflows" },
+      { mark: "WF", name: "Automation" },
+    ],
+  },
+  {
+    code: "CL",
+    label: "Cloud & Quality",
+    descriptor: "Delivery layer",
+    items: [
+      { mark: "VC", name: "Vercel" },
+      { mark: "GH", name: "GitHub" },
+      { mark: "PF", name: "Performance" },
+      { mark: "AX", name: "Accessibility" },
+    ],
   },
 ];
 
+function delayStyle(ms: number): StackStyle {
+  return { "--reveal-delay": `${ms}ms` };
+}
+
 export default function CapabilitiesSection() {
   return (
-    <section
-      aria-labelledby="capabilities-heading"
-      className="w-full bg-surface"
-    >
-      <div className="mx-auto max-w-[1400px] px-6 py-24 lg:py-32">
-        <Reveal>
-          <div className="grid gap-6 md:grid-cols-12 md:items-end">
-            <div className="md:col-span-7">
-              <span
-                className="rv inline-flex items-center text-xs font-semibold uppercase tracking-[0.16em] text-accent-dark"
-                style={delayStyle(0)}
-              >
-                Capabilities
+    <section id="capabilities" aria-labelledby="capabilities-heading" className="stack7-section">
+      <div className="stack7-ambient" aria-hidden="true" />
+      <div className="stack7-wrap">
+        <Reveal threshold={0.08}>
+          <div className="stack7-intro">
+            <div>
+              <span className="stack7-kicker rv" style={delayStyle(0)}>
+                <i aria-hidden="true" />
+                Technology stack
               </span>
-              <h2
-                id="capabilities-heading"
-                className="rv mt-5 text-[clamp(1.9rem,1rem+2.4vw,2.75rem)] font-bold leading-[1.15] tracking-tight text-foreground"
-                style={delayStyle(80)}
-              >
-                A focused, modern toolset—used with intent.
+              <h2 id="capabilities-heading" className="rv" style={delayStyle(70)}>
+                A focused stack for{" "}
+                <span>serious digital delivery.</span>
               </h2>
             </div>
-            <p
-              className="rv text-base leading-relaxed text-muted md:col-span-5"
-              style={delayStyle(160)}
-            >
-              We work with dependable, well-supported technology and choose each
-              piece for the job in front of it—never for novelty.
+            <p className="stack7-intro-copy rv" style={delayStyle(140)}>
+              We work with dependable, production-ready technology and choose the
+              combination around the work—not a fixed template.
             </p>
           </div>
 
-          {/* Capability specification matrix */}
-          <div
-            className="rv mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-sm border border-border bg-border sm:grid-cols-2 lg:grid-cols-4"
-            style={delayStyle(240)}
-          >
-            {GROUPS.map((group) => (
-              <div key={group.label} className="bg-white p-6 sm:p-7">
-                <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
-                  {group.label}
-                </h3>
-                <ul className="mt-4 space-y-2.5">
-                  {group.items.map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-center gap-2.5 text-sm font-medium text-foreground"
-                    >
-                      <span
-                        className="h-1 w-1 shrink-0 rounded-full bg-accent"
-                        aria-hidden="true"
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          <div className="stack7-panel rv" style={delayStyle(210)}>
+            <div className="stack7-panel-bar">
+              <span>
+                <i aria-hidden="true" />
+                Production technology roster
+              </span>
+              <span>Web · Commerce · Automation · Infrastructure</span>
+            </div>
+
+            <div className="stack7-grid">
+              {STACK_GROUPS.map((group, index) => (
+                <article
+                  className="stack7-group rv"
+                  style={delayStyle(270 + index * 60)}
+                  key={group.label}
+                >
+                  <div className="stack7-group-heading">
+                    <span className="stack7-group-code">{group.code}</span>
+                    <div>
+                      <small>{group.descriptor}</small>
+                      <h3>{group.label}</h3>
+                    </div>
+                  </div>
+
+                  <ul>
+                    {group.items.map((item) => (
+                      <li key={item.name}>
+                        <span className="stack7-item-mark">{item.mark}</span>
+                        <strong>{item.name}</strong>
+                        <i aria-hidden="true" />
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
           </div>
         </Reveal>
       </div>

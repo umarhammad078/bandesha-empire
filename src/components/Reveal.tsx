@@ -12,11 +12,13 @@ import { useEffect, useRef, useState } from "react";
 export default function Reveal({
   children,
   className = "",
+  id,
   as: Tag = "div",
   threshold = 0.15,
 }: {
   children: React.ReactNode;
   className?: string;
+  id?: string;
   as?: "div" | "section";
   threshold?: number;
 }) {
@@ -46,6 +48,7 @@ export default function Reveal({
   return (
     <Tag
       ref={ref}
+      id={id}
       className={`${inView ? "is-in" : ""} ${className}`.trim()}
     >
       {children}

@@ -1,17 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import BrandMark from "@/components/BrandMark";
 
 const NAV_LINKS = [
-  { label: "Home", href: "#hero", sectionId: "hero" },
-  { label: "Services", href: "#services", sectionId: "services" },
-  { label: "Portfolio", href: "#portfolio", sectionId: "portfolio" },
-  { label: "Pricing", href: "#pricing", sectionId: "pricing" },
-  { label: "About", href: "#about", sectionId: "about" },
+  { label: "Home", href: "/#hero", sectionId: "hero" },
+  { label: "Services", href: "/services", sectionId: "services" },
+  { label: "Portfolio", href: "/#portfolio", sectionId: "portfolio" },
+  { label: "Pricing", href: "/#pricing", sectionId: "pricing" },
+  { label: "About Us", href: "/about", sectionId: "about-page" },
 ] as const;
 
 export default function Header() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
@@ -21,6 +24,21 @@ export default function Header() {
 
     const updateHeader = () => {
       setScrolled(window.scrollY > 18);
+
+      if (pathname === "/services") {
+        setActiveSection("services");
+        return;
+      }
+
+      if (pathname === "/about") {
+        setActiveSection("about-page");
+        return;
+      }
+
+      if (pathname !== "/") {
+        setActiveSection("");
+        return;
+      }
 
       const marker = window.scrollY + window.innerHeight * 0.34;
       const visibleSections: Array<{ id: string; top: number }> = [];
@@ -58,7 +76,7 @@ export default function Header() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -85,8 +103,8 @@ export default function Header() {
       className={`site-header ${scrolled ? "site-header-scrolled" : ""}`}
     >
       <div className="site-header-shell">
-        <a
-          href="#hero"
+        <Link
+          href="/#hero"
           aria-label="Bandesha Empire — home"
           className="site-header-brand"
           onClick={() => setMenuOpen(false)}
@@ -98,11 +116,11 @@ export default function Header() {
             <strong>Bandesha Empire</strong>
             <small>Digital systems studio</small>
           </span>
-        </a>
+        </Link>
 
         <nav aria-label="Main navigation" className="site-header-nav">
           {NAV_LINKS.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               aria-current={
@@ -115,12 +133,12 @@ export default function Header() {
               }`}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
-        <a
-          href="#contact"
+        <Link
+          href={pathname === "/services" ? "/services#start-project" : "/#contact"}
           className="site-header-cta"
         >
           <span>Start a project</span>
@@ -129,7 +147,7 @@ export default function Header() {
               <path d="M3.5 8h9M9 4.5 12.5 8 9 11.5" />
             </svg>
           </i>
-        </a>
+        </Link>
 
         <button
           type="button"
@@ -150,7 +168,7 @@ export default function Header() {
         <div id="mobile-menu" className="site-header-mobile-panel">
           <nav aria-label="Mobile navigation">
             {NAV_LINKS.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
@@ -163,16 +181,16 @@ export default function Header() {
               >
                 <span>{link.label}</span>
                 <small>{String(NAV_LINKS.indexOf(link) + 1).padStart(2, "0")}</small>
-              </a>
+              </Link>
             ))}
-            <a
-              href="#contact"
+            <Link
+              href={pathname === "/services" ? "/services#start-project" : "/#contact"}
               onClick={() => setMenuOpen(false)}
               className="site-header-mobile-cta"
             >
               Start a project
               <span aria-hidden="true">↗</span>
-            </a>
+            </Link>
           </nav>
         </div>
       )}

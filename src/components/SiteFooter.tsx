@@ -1,9 +1,11 @@
+import Link from "next/link";
+
 const FOOTER_LINKS = [
-  { label: "Home", href: "#hero" },
-  { label: "Services", href: "#services" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "About", href: "#about" },
+  { label: "Home", href: "/#hero" },
+  { label: "Services", href: "/services" },
+  { label: "Portfolio", href: "/#portfolio" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "About Us", href: "/about" },
 ];
 
 export default function SiteFooter() {
@@ -71,12 +73,12 @@ export default function SiteFooter() {
             <ul>
               {FOOTER_LINKS.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href}>
+                  <Link href={link.href}>
                     <span>{link.label}</span>
                     <svg viewBox="0 0 16 16" aria-hidden="true">
                       <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" />
                     </svg>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

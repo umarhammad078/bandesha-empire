@@ -1,4 +1,5 @@
 import ServicesReveal from "@/components/ServicesReveal";
+import Link from "next/link";
 
 function delayStyle(ms: number): React.CSSProperties {
   return { "--reveal-delay": `${ms}ms` } as React.CSSProperties;
@@ -208,6 +209,13 @@ export default function ServicesSection() {
                       Strategy through support
                     </span>
                   </div>
+                  <Link
+                    href="/services"
+                    className="mt-4 inline-flex min-h-11 items-center gap-2 rounded text-sm font-semibold text-accent-dark transition-colors hover:text-accent-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-dark focus-visible:ring-offset-2"
+                  >
+                    Explore all services
+                    <ArrowIcon />
+                  </Link>
                 </div>
               </div>
             </div>

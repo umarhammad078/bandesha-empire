@@ -9,12 +9,16 @@ const NAV_LINKS = [
   { label: "Home", href: "/#hero", sectionId: "hero" },
   { label: "Services", href: "/services", sectionId: "services" },
   { label: "Portfolio", href: "/#portfolio", sectionId: "portfolio" },
-  { label: "Pricing", href: "/#pricing", sectionId: "pricing" },
+  { label: "Pricing", href: "/pricing", sectionId: "pricing" },
   { label: "About Us", href: "/about", sectionId: "about-page" },
 ] as const;
 
 export default function Header() {
   const pathname = usePathname();
+  const projectHref =
+    pathname === "/services" || pathname === "/pricing"
+      ? `${pathname}#start-project`
+      : "/#contact";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
@@ -27,6 +31,11 @@ export default function Header() {
 
       if (pathname === "/services") {
         setActiveSection("services");
+        return;
+      }
+
+      if (pathname === "/pricing") {
+        setActiveSection("pricing");
         return;
       }
 
@@ -138,7 +147,7 @@ export default function Header() {
         </nav>
 
         <Link
-          href={pathname === "/services" ? "/services#start-project" : "/#contact"}
+          href={projectHref}
           className="site-header-cta"
         >
           <span>Start a project</span>
@@ -184,7 +193,7 @@ export default function Header() {
               </Link>
             ))}
             <Link
-              href={pathname === "/services" ? "/services#start-project" : "/#contact"}
+              href={projectHref}
               onClick={() => setMenuOpen(false)}
               className="site-header-mobile-cta"
             >

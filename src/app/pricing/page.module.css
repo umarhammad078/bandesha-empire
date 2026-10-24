@@ -47,7 +47,20 @@
 .planGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.2rem; }
 .plan { position: relative; display: flex; flex-direction: column; min-width: 0; padding: clamp(1.4rem, 2.2vw, 2.25rem); border: 1px solid var(--line); border-radius: 1rem; background: #fcfdfb; transition: background-color .25s, border-color .25s, box-shadow .25s; }
 .planTop { display: flex; align-items: center; justify-content: space-between; gap: .5rem; min-height: 1.7rem; margin-bottom: 2rem; }
-.planNumber { color: #65725e; font: .57rem/1.5 var(--font-mono), monospace; letter-spacing: .05em; text-transform: uppercase; }
+.planNumber { position: relative; display: inline-block; padding-left: 1.85rem; color: #65725e; font: .57rem/1.5 var(--font-mono), monospace; letter-spacing: .05em; text-transform: uppercase; }
+.planNumber::before { content: ""; position: absolute; top: 50%; left: .35rem; transform: translateY(-50%); width: .5rem; height: .5rem; box-sizing: content-box; border: 3px solid #fcfdfb; border-radius: 50%; background: #75c879; box-shadow: 0 0 0 1px rgb(70 184 79 / .32); }
+.popularPlan .planNumber::before { border-color: var(--forest); background: #a8df8a; }
+.planNumber::after { content: ""; position: absolute; top: 50%; left: calc(.35rem + 7px); width: 24px; height: 24px; border: 1px solid rgb(70 184 79 / .42); border-radius: 50%; pointer-events: none; opacity: 0; transform: translate(-50%, -50%) scale(.72); }
+.popularPlan .planNumber::after { border-color: rgb(168 223 138 / .42); }
+/* Match the homepage service dots' expanding-ring pulse and timing. */
+@media (prefers-reduced-motion: no-preference) {
+  .planNumber::after { animation: planDotPulse 2.4s ease-out infinite; }
+}
+@keyframes planDotPulse {
+  0%, 38% { opacity: 0; transform: translate(-50%, -50%) scale(.72); }
+  56% { opacity: .8; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.65); }
+}
 .planMark { color: var(--accent-dark); font-size: 1.5rem; line-height: 1; font-weight: 300; }
 .planEyebrow { min-height: 1rem; margin-bottom: .6rem; color: var(--accent-deep); font: .59rem/1.5 var(--font-mono), monospace; letter-spacing: .1em; text-transform: uppercase; }
 .plan h3 { margin-bottom: 1.25rem; font-size: 1.8rem; font-weight: 580; line-height: 1.1; letter-spacing: -.055em; }

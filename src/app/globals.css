@@ -4269,7 +4269,8 @@ body {
   opacity: 0;
 }
 
-.svc-overview-item:hover .svc-overview-node {
+.svc-overview-item:hover .svc-overview-node,
+.pricing-dot-host:hover .svc-overview-node {
   background: var(--accent);
   box-shadow:
     0 0 0 1px color-mix(in srgb, var(--accent) 48%, white),
@@ -4396,11 +4397,13 @@ body {
     animation-delay: var(--current-delay, 0ms);
   }
 
-  .svc-overview-item:hover .svc-overview-node {
+  .svc-overview-item:hover .svc-overview-node,
+  .pricing-dot-host:hover .svc-overview-node {
     animation: svc-overview-node-blink 1.1s ease-in-out infinite;
   }
 
-  .svc-overview-item:hover .svc-overview-node::before {
+  .svc-overview-item:hover .svc-overview-node::before,
+  .pricing-dot-host:hover .svc-overview-node::before {
     animation: svc-current-node-pulse 1.45s ease-out infinite;
   }
 

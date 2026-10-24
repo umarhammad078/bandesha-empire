@@ -93,8 +93,8 @@ export default function PricingPage() {
             <div className={styles.sectionHeading}><div><h2 id="packages-title">The right foundation.<br /><em>Room to go further.</em></h2></div><p>Two defined website packages. One completely open canvas. Choose what fits today, with a clear path to what comes next.</p></div>
             <div className={styles.planGrid}>
               {PACKAGE_PLANS.map((plan, index) => (
-                <article key={plan.id} className={`${styles.plan} ${plan.id === "popular" ? styles.popularPlan : ""}`} aria-labelledby={`${plan.id}-title`}>
-                  <div className={styles.planTop}><span className={styles.planNumber}>0{index + 1} / 03</span>{plan.id === "popular" ? <span className={styles.popularBadge}>Popular choice <span aria-hidden="true">↗</span></span> : <span className={styles.planMark} aria-hidden="true">+</span>}</div>
+                <article key={plan.id} className={`pricing-dot-host ${styles.plan} ${plan.id === "popular" ? styles.popularPlan : ""}`} aria-labelledby={`${plan.id}-title`}>
+                  <div className={styles.planTop}><span className={styles.planNumber}><span className={`svc-overview-node ${styles.pricingDot} ${styles.planDot}`} aria-hidden="true" />0{index + 1} / 03</span>{plan.id === "popular" ? <span className={styles.popularBadge}>Popular choice <span aria-hidden="true">↗</span></span> : <span className={styles.planMark} aria-hidden="true">+</span>}</div>
                   <p className={styles.planEyebrow}>{plan.eyebrow}</p>
                   <h3 id={`${plan.id}-title`}>{plan.name}</h3>
                   <div className={`${styles.planPrice} ${plan.id === "custom" ? styles.customPrice : ""}`}>{plan.price}<span>{plan.priceNote}</span></div>
@@ -142,7 +142,7 @@ export default function PricingPage() {
         <section id="individual-services" className={styles.individualServices} aria-labelledby="individual-title">
           <div className={styles.shell}>
             <div className={styles.sectionHeading}><div><h2 id="individual-title">Start with a service.<br /><em>Build from there.</em></h2></div><div className={styles.headingAside}><p>Not every project needs a package. Bring us the website, workflow or connection you want to improve.</p><span className={styles.unitLabel}>Starting project rates · USD</span></div></div>
-            <div className={`${styles.rateGrid} ${styles.serviceRates}`}>{INDIVIDUAL_SERVICES.map((service, index) => <article key={service.name} className={styles.serviceRow}><span className={styles.serviceNumber}>0{index + 1}</span><div><div className={styles.rateTop}><h3><Link href={service.href}>{service.name}<Arrow diagonal /></Link></h3><span className={styles.rateLeader} aria-hidden="true" /><p>{service.price}</p></div><p className={styles.rateDescription}>{service.description}</p></div></article>)}</div>
+            <div className={`${styles.rateGrid} ${styles.serviceRates}`}>{INDIVIDUAL_SERVICES.map((service) => <article key={service.name} className={`pricing-dot-host ${styles.serviceRow}`}><span className={styles.serviceDot} aria-hidden="true"><span className={`svc-overview-node ${styles.pricingDot}`} /></span><div><div className={styles.rateTop}><h3><Link href={service.href}>{service.name}<Arrow diagonal /></Link></h3><span className={styles.rateLeader} aria-hidden="true" /><p>{service.price}</p></div><p className={styles.rateDescription}>{service.description}</p></div></article>)}</div>
           </div>
           <aside className={styles.serviceFoot} aria-labelledby="service-guidance-title">
             <div className={`${styles.shell} ${styles.serviceFootInner}`}>

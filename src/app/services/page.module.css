@@ -102,7 +102,8 @@
 .engagements { padding-block: 4.5rem 5rem; background: #f3f7ef; border-block: 1px solid var(--line); }
 .engagementGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 .engagementGrid article { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 1rem; background: #fff; padding: 1.8rem; box-shadow: inset 0 3px 0 transparent; transition: border-color .25s, box-shadow .25s; }
-.engagementLabel { margin-bottom: 2rem; color: #617256; font: .625rem var(--font-mono), monospace; letter-spacing: .1em; }
+.engagementLabel { display: flex; align-items: center; gap: .75rem; margin-bottom: 2rem; color: #617256; font: .625rem var(--font-mono), monospace; letter-spacing: .1em; }
+.engagementDot { position: relative; flex: 0 0 .625rem; width: .625rem; height: .625rem; border-radius: 50%; }
 .engagementGrid h3 { margin-bottom: 1rem; font-size: clamp(1.45rem, 2.1vw, 2rem); font-weight: 600; letter-spacing: -.045em; line-height: 1.15; }
 .engagementGrid p { margin-bottom: 1.25rem; color: var(--copy); font-size: .8rem; line-height: 1.8; }
 .engagementGrid small { display: block; margin-top: auto; border-top: 1px solid var(--line); padding-top: 1rem; color: #7c8874; font-size: .64rem; line-height: 1.7; }

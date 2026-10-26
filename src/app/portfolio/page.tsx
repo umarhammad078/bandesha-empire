@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import SiteFooter from "@/components/SiteFooter";
 import { PROJECTS } from "@/data/projects";
 import styles from "./page.module.css";
@@ -77,13 +76,6 @@ export default function PortfolioPage() {
             </section>
           ))}
         </div>
-
-        <section className={styles.connections} aria-labelledby="connections-title">
-          <div className={`${styles.shell} ${styles.connectionsInner}`}>
-            <div><h2 id="connections-title">The right pieces.<br /><em>Working as one.</em></h2><p>A website can connect to a portal. A portal can trigger a workflow. We help shape the connections your business actually needs.</p></div>
-            <div className={styles.nextLinks}><Link href="/services"><span><small>Explore the capabilities</small>What we can build</span><Arrow diagonal /></Link><Link href="/pricing"><span><small>Plan your investment</small>Find the right scope</span><Arrow diagonal /></Link></div>
-          </div>
-        </section>
 
         <section id="start-project" className={styles.closing} aria-labelledby="closing-title">
           <div className={styles.shell}>

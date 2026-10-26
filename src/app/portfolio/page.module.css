@@ -63,16 +63,6 @@
 .reversed .visual { grid-column: 2; grid-row: 1; }
 .reversed .studyCopy { grid-column: 1; grid-row: 1; }
 
-.connections { padding-block: 3.5rem; background: #eaf3e2; border-block: 1px solid #d3e2c8; }
-.connectionsInner { display: grid; grid-template-columns: 1.15fr 1fr; gap: 4rem; align-items: center; }
-.connections h2 { font-size: clamp(2.3rem, 3.6vw, 3.5rem); font-weight: 570; line-height: 1.05; letter-spacing: -.06em; }
-.connections p { max-width: 31rem; margin-top: 1rem; color: #5a6d4e; font-size: .85rem; line-height: 1.8; }
-.nextLinks { display: grid; gap: .85rem; }
-.nextLinks a { display: flex; justify-content: space-between; gap: 1rem; align-items: center; border: 1px solid #c8d9bb; border-radius: .65rem; padding: 1.1rem 1.3rem; color: #1d3a1f; background: #f9fcf5; font-size: .95rem; font-weight: 550; transition: border-color .25s, background-color .25s; }
-.nextLinks small { display: block; margin-bottom: .35rem; font: .52rem var(--font-mono), monospace; text-transform: uppercase; letter-spacing: .07em; color: #617653; }
-.nextLinks a:hover { border-color: #9bbd83; background: #fff; }
-.nextLinks svg { color: var(--accent-dark); }
-
 .closing { padding-block: 4.25rem 1.4rem; color: #eef6e8; background: radial-gradient(ellipse at 90% 0%, #284d2a, transparent 70%), var(--forest); }
 .closingInner { display: grid; grid-template-columns: 1.3fr 1fr; align-items: center; gap: 4rem; }
 .closingLabel { display: block; margin-bottom: 1.3rem; color: #afc79f; font: .58rem var(--font-mono), monospace; letter-spacing: .12em; text-transform: uppercase; }
@@ -112,8 +102,7 @@
   .approach p { font-size: .86rem; }
   .focus li { font-size: .8rem; }
   .reversed .visual, .reversed .studyCopy { grid-column: auto; grid-row: auto; }
-  .connectionsInner, .closingInner { grid-template-columns: 1fr; gap: 2rem; }
-  .connectionsInner { grid-template-columns: 1.1fr 1fr; gap: 2rem; }
+  .closingInner { grid-template-columns: 1fr; gap: 2rem; }
   .closingActions { justify-self: start; max-width: 28rem; }
 }
 @media (max-width: 650px) {
@@ -150,11 +139,6 @@
   .approach p { font-size: .79rem; }
   .focus li { font-size: .75rem; }
   .discuss { margin-top: 1.2rem; font-size: .74rem; }
-  .connections { padding-block: 2.5rem; }
-  .connectionsInner { grid-template-columns: 1fr; gap: 1.5rem; }
-  .connections h2 { font-size: 2.5rem; }
-  .connections p { font-size: .82rem; }
-  .nextLinks a { padding: 1rem; font-size: .9rem; }
   .closing { padding-block: 3rem 1.3rem; }
   .closing h2 { font-size: clamp(2.4rem, 10vw, 3.5rem); }
   .closing p { font-size: .85rem; }

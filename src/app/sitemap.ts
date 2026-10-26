@@ -15,6 +15,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: "https://bandeshaempire.com/portfolio",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
       url: "https://bandeshaempire.com/pricing",
       lastModified: new Date(),
       changeFrequency: "monthly",

@@ -8,7 +8,7 @@ import BrandMark from "@/components/BrandMark";
 const NAV_LINKS = [
   { label: "Home", href: "/#hero", sectionId: "hero" },
   { label: "Services", href: "/services", sectionId: "services" },
-  { label: "Portfolio", href: "/#portfolio", sectionId: "portfolio" },
+  { label: "Portfolio", href: "/portfolio", sectionId: "portfolio" },
   { label: "Pricing", href: "/pricing", sectionId: "pricing" },
   { label: "About Us", href: "/about", sectionId: "about-page" },
 ] as const;
@@ -16,7 +16,7 @@ const NAV_LINKS = [
 export default function Header() {
   const pathname = usePathname();
   const projectHref =
-    pathname === "/services" || pathname === "/pricing"
+    pathname === "/services" || pathname === "/pricing" || pathname === "/portfolio"
       ? `${pathname}#start-project`
       : "/#contact";
   const [scrolled, setScrolled] = useState(false);
@@ -36,6 +36,11 @@ export default function Header() {
 
       if (pathname === "/pricing") {
         setActiveSection("pricing");
+        return;
+      }
+
+      if (pathname === "/portfolio") {
+        setActiveSection("portfolio");
         return;
       }
 

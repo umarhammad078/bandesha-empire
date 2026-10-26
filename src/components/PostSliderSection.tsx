@@ -1,7 +1,9 @@
 "use client";
 
 import Reveal from "@/components/Reveal";
+import { PROJECTS } from "@/data/projects";
 import Image from "next/image";
+import Link from "next/link";
 import {
   useCallback,
   useEffect,
@@ -10,92 +12,6 @@ import {
   type CSSProperties,
   type KeyboardEvent,
 } from "react";
-
-type Project = {
-  number: string;
-  category: string;
-  title: string;
-  summary: string;
-  image: string;
-  imageAlt: string;
-  cta: string;
-  tags: readonly string[];
-};
-
-const PROJECTS: readonly Project[] = [
-  {
-    number: "01",
-    category: "AI & Automation",
-    title: "An AI agent that turns questions into action.",
-    summary:
-      "A connected support workspace that retrieves approved knowledge, completes routine workflows and hands complex cases to the right person with full context.",
-    image: "/projects/ai-automation-editorial.png",
-    imageAlt:
-      "Professional using an AI automation workflow on a laptop in a dark studio workspace.",
-    cta: "Build an AI agent",
-    tags: ["Knowledge retrieval", "Workflow actions", "Human hand-off"],
-  },
-  {
-    number: "02",
-    category: "Website Development",
-    title: "A high-performing website built to earn trust.",
-    summary:
-      "Clear positioning, purposeful journeys and dependable engineering connect discovery, qualification and enquiry without unnecessary friction.",
-    image: "/projects/website-development-editorial.png",
-    imageAlt:
-      "Modern website development workspace with a dark code editor and refined digital canvas.",
-    cta: "Plan your website",
-    tags: ["Strategy-led UX", "CMS & integrations", "Performance-first"],
-  },
-  {
-    number: "03",
-    category: "Shopify Commerce",
-    title: "A Shopify store built for confident buying.",
-    summary:
-      "Focused merchandising, fast product discovery and a streamlined purchase journey create a storefront customers trust and teams can operate.",
-    image: "/projects/shopify-commerce-editorial.png",
-    imageAlt:
-      "Premium skincare products arranged beside a tablet displaying an ecommerce product gallery.",
-    cta: "Build your Shopify store",
-    tags: ["Storefront UX", "Conversion architecture", "Operations integration"],
-  },
-  {
-    number: "04",
-    category: "Custom Web Application",
-    title: "A client portal for every decision and next action.",
-    summary:
-      "A secure shared workspace gives clients and teams a clear view of progress, approvals, documents and next actions—without scattered email threads.",
-    image: "/projects/client-portal-editorial.png",
-    imageAlt:
-      "Two professionals reviewing a clean project dashboard on a laptop during a client meeting.",
-    cta: "Plan your web application",
-    tags: ["Role-based access", "Approval workflows", "Secure document hub"],
-  },
-  {
-    number: "05",
-    category: "Business Automation",
-    title: "An operations workflow that keeps work moving.",
-    summary:
-      "Forms, approvals, notifications and task hand-offs connect into one visible process, while exceptions stay with the people best placed to decide.",
-    image: "/projects/workflow-automation-editorial.png",
-    imageAlt:
-      "Business operator using a tablet with a connected approvals and workflow diagram.",
-    cta: "Automate your operations",
-    tags: ["Workflow orchestration", "Approval routing", "Exception handling"],
-  },
-  {
-    number: "06",
-    category: "Connected Systems",
-    title: "An integration hub for one dependable data flow.",
-    summary:
-      "APIs, databases and third-party tools synchronize through a monitored connection layer, reducing duplicate entry and keeping teams aligned.",
-    image: "/projects/connected-systems-editorial.png",
-    imageAlt:
-      "Enterprise server hardware connected by restrained green data-light paths.",
-    cta: "Connect your systems",
-    tags: ["API integrations", "Data synchronization", "Monitoring & recovery"],
-  },
-] as const;
 
 function revealStyle(delay: number): CSSProperties {
   return { "--reveal-delay": `${delay}ms` } as CSSProperties;
@@ -269,14 +185,14 @@ export default function PostSliderSection() {
                       <p>{project.summary}</p>
 
                       <div className="post5-card-foot">
-                        <a
-                          href="#contact"
+                        <Link
+                          href={`/portfolio#${project.id}`}
                           aria-label={`${project.cta}: ${project.title}`}
                           onFocus={() => goTo(index, "auto")}
                         >
                           {project.cta}
                           <ArrowIcon />
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </article>

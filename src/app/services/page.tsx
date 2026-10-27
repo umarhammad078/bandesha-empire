@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import BrandMark from "@/components/BrandMark";
 import SiteFooter from "@/components/SiteFooter";
+import { getContactEmailHref } from "@/lib/contact";
 import ServicesHero from "./ServicesHero";
 import { FAQS, SERVICES } from "./content";
 import styles from "./page.module.css";
 
 const DESCRIPTION =
   "Websites, web applications, AI automation, Shopify, mobile apps and connected systems. Explore Bandesha Empire’s services and plan your next digital project.";
-const EMAIL = "mailto:bandeshaempire@gmail.com?subject=Let%27s%20plan%20a%20project";
+const EMAIL = getContactEmailHref("Let's plan a project");
 const WHATSAPP =
   "https://wa.me/923023634078?text=Hello%20Bandesha%20Empire%2C%20I%27d%20like%20to%20discuss%20a%20project.";
 
@@ -90,7 +91,7 @@ export default function ServicesPage() {
                   <p className={styles.serviceDescription}>{service.description}</p>
                   <ul className={styles.deliverables}>{service.deliverables.map((item) => <li key={item}><Check />{item}</li>)}</ul>
                   <div className={styles.technologies}>{service.technologies.map((technology) => <span key={technology}>{technology}</span>)}</div>
-                  <a className={styles.serviceLink} href={`mailto:bandeshaempire@gmail.com?subject=${encodeURIComponent(`Let's discuss ${service.title}`)}`}>Discuss {service.title.toLowerCase()} <Arrow diagonal /></a>
+                  <a className={styles.serviceLink} href={getContactEmailHref(`Let's discuss ${service.title}`)}>Discuss {service.title.toLowerCase()} <Arrow diagonal /></a>
                 </article>
               ))}
             </div>

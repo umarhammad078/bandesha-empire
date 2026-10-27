@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import SiteFooter from "@/components/SiteFooter";
 import { PROJECTS } from "@/data/projects";
+import { getContactEmailHref } from "@/lib/contact";
 import styles from "./page.module.css";
 
 const DESCRIPTION = "Explore six Bandesha Empire concept builds in detail: AI support, business websites, Shopify commerce, client portals, operations workflows and connected systems.";
-const enquiry = (name: string) => `mailto:bandeshaempire@gmail.com?subject=${encodeURIComponent(`Let's discuss a project — ${name}`)}`;
+const enquiry = (name: string) => getContactEmailHref(`Let's discuss a project — ${name}`);
 
 export const metadata: Metadata = {
   title: "Portfolio",

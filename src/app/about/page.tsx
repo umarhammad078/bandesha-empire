@@ -3,6 +3,7 @@ import Link from "next/link";
 import AboutWorldReachMap from "@/components/AboutWorldReachMap";
 import Reveal from "@/components/Reveal";
 import SiteFooter from "@/components/SiteFooter";
+import { getContactEmailHref } from "@/lib/contact";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -392,7 +393,7 @@ export default function AboutPage() {
                   <span>Delivery ownership</span>
                 </div>
                 <div className="about-page-leader-links">
-                  <a href="mailto:bandeshaempire@gmail.com">
+                  <a href={getContactEmailHref()}>
                     Email the studio <span aria-hidden="true">↗</span>
                   </a>
                   <a href="https://wa.me/923023634078" target="_blank" rel="noreferrer">

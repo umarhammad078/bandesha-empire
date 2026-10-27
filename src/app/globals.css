@@ -6100,6 +6100,11 @@ footer[id] {
   gap: 0.48rem;
 }
 
+.site-footer-contact > p {
+  max-width: none;
+  margin: 0;
+}
+
 .site-footer-contact a {
   display: grid;
   min-width: 0;

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SiteFooter from "@/components/SiteFooter";
+import { getContactEmailHref } from "@/lib/contact";
 import {
   ADD_ONS,
   COMPARISON_ROWS,
@@ -13,7 +14,7 @@ import styles from "./page.module.css";
 const DESCRIPTION =
   "Clear project pricing for ambitious businesses. Explore Bandesha Empire’s $500 Starter and $1,000 Growth website packages, custom projects, service rates and optional add-ons.";
 const enquiryHref = (subject: string) =>
-  `mailto:bandeshaempire@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("Hello Bandesha Empire,\n\nI'd like to discuss a project.\n\nMy business:\nWhat I need:\nMy preferred timeline:\n\nThank you.")}`;
+  getContactEmailHref(subject, "Hello Bandesha Empire,\n\nI'd like to discuss a project.\n\nMy business:\nWhat I need:\nMy preferred timeline:\n\nThank you.");
 const EMAIL = enquiryHref("Let's plan a project — Pricing enquiry");
 const WHATSAPP =
   "https://wa.me/923023634078?text=Hello%20Bandesha%20Empire%2C%20I%27d%20like%20to%20discuss%20your%20pricing%20and%20a%20project.";

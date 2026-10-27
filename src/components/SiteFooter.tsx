@@ -30,21 +30,23 @@ export default function SiteFooter() {
             </div>
 
             <div className="site-footer-contact" aria-label="Contact Bandesha Empire">
-              <a href="mailto:bandeshaempire@gmail.com">
-                <i aria-hidden="true">
-                  <svg viewBox="0 0 20 20">
-                    <rect x="2.5" y="4" width="15" height="12" rx="2.5" />
-                    <path d="m4 6 6 4.8L16 6" />
+              <p>
+                <a href="mailto:contact@bandeshaempire.com">
+                  <i aria-hidden="true">
+                    <svg viewBox="0 0 20 20">
+                      <rect x="2.5" y="4" width="15" height="12" rx="2.5" />
+                      <path d="m4 6 6 4.8L16 6" />
+                    </svg>
+                  </i>
+                  <span>
+                    <small>Email</small>
+                    <b>contact@bandeshaempire.com</b>
+                  </span>
+                  <svg className="site-footer-contact-arrow" viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" />
                   </svg>
-                </i>
-                <span>
-                  <small>Email</small>
-                  <b>bandeshaempire@gmail.com</b>
-                </span>
-                <svg className="site-footer-contact-arrow" viewBox="0 0 16 16" aria-hidden="true">
-                  <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" />
-                </svg>
-              </a>
+                </a>
+              </p>
 
               <a
                 href="https://wa.me/923023634078"

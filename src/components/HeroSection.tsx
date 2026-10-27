@@ -566,7 +566,7 @@ export default function HeroSection() {
               style={revealStyle(425)}
             >
               <a
-                href="/login"
+                href="/portal/login"
                 className="hero-current-button group inline-flex min-h-14 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--accent-dark),var(--accent))] px-7 text-sm font-semibold text-white shadow-[0_16px_42px_rgba(41,135,49,0.22)] transition-[background-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_52px_rgba(41,135,49,0.32)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-dark"
               >
                 <ButtonBorderCurrent />
@@ -578,7 +578,7 @@ export default function HeroSection() {
                 </span>
               </a>
               <a
-                href="#portfolio"
+                href="/portal?view=orders"
                 className="hero-current-button group inline-flex min-h-14 items-center justify-center rounded-full bg-white/72 px-7 text-sm font-semibold text-[#111111] shadow-[0_10px_35px_rgba(28,38,27,0.055)] ring-1 ring-[#111111]/10 transition-[background-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_15px_42px_rgba(28,38,27,0.09)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-dark"
               >
                 <ButtonBorderCurrent />

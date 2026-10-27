@@ -7,6 +7,7 @@ const FOOTER_LINKS = [
   { label: "Portfolio", href: "/portfolio" },
   { label: "Pricing", href: "/pricing" },
   { label: "About Us", href: "/about" },
+  { label: "Client portal", href: "/portal" },
 ];
 
 export default function SiteFooter() {

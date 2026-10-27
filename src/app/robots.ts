@@ -5,6 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: ["/portal", "/auth"],
     },
     sitemap: "https://bandeshaempire.com/sitemap.xml",
     host: "https://bandeshaempire.com",

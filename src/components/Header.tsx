@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { label: "Portfolio", href: "/portfolio", pathname: "/portfolio" },
   { label: "Pricing", href: "/pricing", pathname: "/pricing" },
   { label: "About Us", href: "/about", pathname: "/about" },
+  { label: "Client portal", href: "/portal", pathname: "/portal" },
 ] as const;
 
 export default function Header() {
@@ -64,6 +65,9 @@ export default function Header() {
       window.removeEventListener("resize", onResize);
     };
   }, [menuOpen]);
+
+  // The client workspace has its own sidebar and account navigation.
+  if (pathname === "/portal" || pathname.startsWith("/portal/")) return null;
 
   return (
     <header

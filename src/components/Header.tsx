@@ -6,11 +6,11 @@ import { usePathname } from "next/navigation";
 import BrandMark from "@/components/BrandMark";
 
 const NAV_LINKS = [
-  { label: "Home", href: "/#hero", sectionId: "hero" },
-  { label: "Services", href: "/services", sectionId: "services" },
-  { label: "Portfolio", href: "/portfolio", sectionId: "portfolio" },
-  { label: "Pricing", href: "/pricing", sectionId: "pricing" },
-  { label: "About Us", href: "/about", sectionId: "about-page" },
+  { label: "Home", href: "/#hero", pathname: "/" },
+  { label: "Services", href: "/services", pathname: "/services" },
+  { label: "Portfolio", href: "/portfolio", pathname: "/portfolio" },
+  { label: "Pricing", href: "/pricing", pathname: "/pricing" },
+  { label: "About Us", href: "/about", pathname: "/about" },
 ] as const;
 
 export default function Header() {
@@ -21,59 +21,12 @@ export default function Header() {
       : "/#contact";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
     let frame = 0;
 
     const updateHeader = () => {
       setScrolled(window.scrollY > 18);
-
-      if (pathname === "/services") {
-        setActiveSection("services");
-        return;
-      }
-
-      if (pathname === "/pricing") {
-        setActiveSection("pricing");
-        return;
-      }
-
-      if (pathname === "/portfolio") {
-        setActiveSection("portfolio");
-        return;
-      }
-
-      if (pathname === "/about") {
-        setActiveSection("about-page");
-        return;
-      }
-
-      if (pathname !== "/") {
-        setActiveSection("");
-        return;
-      }
-
-      const marker = window.scrollY + window.innerHeight * 0.34;
-      const visibleSections: Array<{ id: string; top: number }> = [];
-
-      NAV_LINKS.forEach((link) => {
-        const element = document.getElementById(link.sectionId);
-        if (element) {
-          visibleSections.push({
-            id: link.sectionId,
-            top: element.offsetTop,
-          });
-        }
-      });
-
-      visibleSections.sort((first, second) => first.top - second.top);
-
-      const current = visibleSections.reduce(
-        (section, entry) => (entry.top <= marker ? entry.id : section),
-        "hero",
-      );
-      setActiveSection(current);
     };
 
     const onScroll = () => {
@@ -138,10 +91,10 @@ export default function Header() {
               key={link.href}
               href={link.href}
               aria-current={
-                activeSection === link.sectionId ? "page" : undefined
+                pathname === link.pathname ? "page" : undefined
               }
               className={`site-header-link ${
-                activeSection === link.sectionId
+                pathname === link.pathname
                   ? "site-header-link-active"
                   : ""
               }`}
@@ -187,10 +140,10 @@ export default function Header() {
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
                 aria-current={
-                  activeSection === link.sectionId ? "page" : undefined
+                  pathname === link.pathname ? "page" : undefined
                 }
                 className={
-                  activeSection === link.sectionId ? "is-active" : ""
+                  pathname === link.pathname ? "is-active" : ""
                 }
               >
                 <span>{link.label}</span>

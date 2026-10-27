@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CONTACT_EMAIL, getContactEmailHref } from "@/lib/contact";
 
 const FOOTER_LINKS = [
   { label: "Home", href: "/#hero" },
@@ -31,7 +32,7 @@ export default function SiteFooter() {
 
             <div className="site-footer-contact" aria-label="Contact Bandesha Empire">
               <p>
-                <a href="mailto:contact@bandeshaempire.com">
+                <a href={getContactEmailHref()} target="_blank" rel="noopener noreferrer" aria-label={`Email ${CONTACT_EMAIL} in Gmail (opens in a new tab)`}>
                   <i aria-hidden="true">
                     <svg viewBox="0 0 20 20">
                       <rect x="2.5" y="4" width="15" height="12" rx="2.5" />
@@ -39,8 +40,8 @@ export default function SiteFooter() {
                     </svg>
                   </i>
                   <span>
-                    <small>Email</small>
-                    <b>contact@bandeshaempire.com</b>
+                    <small>Email · Open in Gmail</small>
+                    <b>{CONTACT_EMAIL}</b>
                   </span>
                   <svg className="site-footer-contact-arrow" viewBox="0 0 16 16" aria-hidden="true">
                     <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" />

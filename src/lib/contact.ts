@@ -1,7 +1,18 @@
 export const CONTACT_EMAIL = "contact@bandeshaempire.com";
 
-// Use this URL in a native <a> so the browser can open the visitor's mail app.
+// Open a Gmail draft without depending on the visitor's OS mailto handler.
+// Do not specify a sender or account index: the visitor uses their own account.
 export function getContactEmailHref(subject?: string, body?: string): string {
+  const fields = ["view=cm", "fs=1", `to=${encodeURIComponent(CONTACT_EMAIL)}`];
+
+  if (subject) fields.push(`su=${encodeURIComponent(subject)}`);
+  if (body) fields.push(`body=${encodeURIComponent(body)}`);
+
+  return `https://mail.google.com/mail/?${fields.join("&")}`;
+}
+
+// Keep a native option for Apple Mail, Outlook and other configured mail apps.
+export function getNativeContactEmailHref(subject?: string, body?: string): string {
   const fields: string[] = [];
 
   if (subject) fields.push(`subject=${encodeURIComponent(subject)}`);

@@ -21,7 +21,7 @@ const NAV: { id: PortalView; label: string; icon: IconName }[] = [
   { id: "support", label: "Support", icon: "support" },
   { id: "settings", label: "Settings", icon: "settings" },
 ];
-type ModalState = { type: "new-order" | "upload" } | { type: "order" | "invoice"; id: string } | { type: "message"; orderId?: string } | null;
+type ModalState = { type: "new-order"; plan?: string } | { type: "upload" } | { type: "order" | "invoice"; id: string } | { type: "message"; orderId?: string } | null;
 const date = (value: string | null, long = false) => value ? new Intl.DateTimeFormat("en-GB", { day: "numeric", month: long ? "long" : "short", year: long ? "numeric" : undefined, timeZone: "UTC" }).format(new Date(value)) : "To be agreed";
 const size = (bytes: number) => bytes >= 1048576 ? `${(bytes / 1048576).toFixed(1)} MB` : `${Math.ceil(bytes / 1024)} KB`;
 
@@ -45,7 +45,7 @@ function EmptyState({ icon, title, description, action }: { icon: IconName; titl
   return <div className={styles.emptyState}><span><Icon name={icon} /></span><h3>{title}</h3><p>{description}</p>{action}</div>;
 }
 
-export default function PortalWorkspace({ data, view, preview = false, previewEmpty = false }: { data: PortalData; view: PortalView; preview?: boolean; previewEmpty?: boolean }) {
+export default function PortalWorkspace({ data, view, preview = false, previewEmpty = false, startNewOrder = false, initialPackage = "growth" }: { data: PortalData; view: PortalView; preview?: boolean; previewEmpty?: boolean; startNewOrder?: boolean; initialPackage?: string }) {
   const router = useRouter();
   const [previewData, setPreviewData] = useState(data);
   const workspace = preview ? previewData : data;
@@ -71,6 +71,14 @@ export default function PortalWorkspace({ data, view, preview = false, previewEm
   const projectName = (id: string | null) => orders.find(order => order.id === id)?.title ?? "Your workspace";
   const notify = (text: string, error = false) => setToast({ text, error });
   const open = (value: ModalState) => { if (workspace.loadError) { notify("The workspace connection needs attention. Please contact the studio.", true); return; } setModal(value); };
+
+  useEffect(() => {
+    if (!startNewOrder || workspace.loadError) return;
+    setModal({ type: "new-order", plan: initialPackage });
+    // Consume the navigation intent, not the brief: refresh must not reopen a
+    // dismissed dialog, and entering the portal must never submit an order.
+    router.replace(`${preview ? "/portal/preview" : "/portal"}?view=orders${previewEmpty ? "&state=empty" : ""}`, { scroll: false });
+  }, [startNewOrder, initialPackage, workspace.loadError, router, preview, previewEmpty]);
 
   useEffect(() => { if (!toast) return; const timer = setTimeout(() => setToast(null), 6500); return () => clearTimeout(timer); }, [toast]);
   useEffect(() => { if (preview) return; const timer = setInterval(() => { if (document.visibilityState === "visible") router.refresh(); }, 30000); return () => clearInterval(timer); }, [preview, router]);
@@ -178,7 +186,7 @@ export default function PortalWorkspace({ data, view, preview = false, previewEm
       </main>
     </div>
     {toast && <div className={`${styles.toast} ${toast.error ? styles.toastError : ""}`} role={toast.error ? "alert" : "status"}><Icon name={toast.error ? "support" : "check"} /><span>{toast.text}</span><button type="button" onClick={() => setToast(null)} aria-label="Dismiss message"><Icon name="close" /></button></div>}
-    {modal?.type === "new-order" && <Modal key="new-order" title="Start something good." subtitle="A little context now. A clearer path forward." onClose={() => setModal(null)}><NewOrderForm onSubmit={submitOrder} preview={preview} /></Modal>}
+    {modal?.type === "new-order" && <Modal key="new-order" title="Start something good." subtitle="A little context now. A clearer path forward." onClose={() => setModal(null)}><NewOrderForm onSubmit={submitOrder} preview={preview} initialPackage={modal.plan} /></Modal>}
     {modal?.type === "message" && <Modal key="message" title="A good conversation starts here." subtitle="A direct line to the people building with you." onClose={() => setModal(null)}><MessageForm orders={orders} orderId={modal.orderId} onSubmit={submitMessage} preview={preview} /></Modal>}
     {modal?.type === "upload" && <Modal key="upload" title="The right context. Shared." subtitle="Assets, references and documents—kept close to the work." onClose={() => setModal(null)}><UploadForm orders={orders} onSubmit={submitFile} preview={preview} /></Modal>}
     {selectedOrder && <Modal key={selectedOrder.id} title={selectedOrder.title} subtitle={`${orderReference(selectedOrder.order_number)} · ${selectedOrder.service}`} onClose={() => setModal(null)}><div className={styles.orderDetail}><div className={styles.detailStatus}><Status status={selectedOrder.status} /><span>{selectedOrder.progress}% complete</span></div><div className={styles.detailProgress}><i style={{ width: `${selectedOrder.progress}%` }} /></div><dl className={styles.projectFacts}><div><dt>Starting point</dt><dd>{selectedOrder.package}</dd></div><div><dt>Agreed investment</dt><dd>{selectedOrder.quoted_amount_cents === null ? "To be agreed" : money(selectedOrder.quoted_amount_cents)}</dd></div><div><dt>Next milestone</dt><dd>{date(selectedOrder.due_date)}</dd></div></dl><h3>The brief</h3><p className={styles.detailBrief}>{selectedOrder.brief}</p><div className={styles.timelineHeading}><h3>The journey so far</h3><span>STUDIO UPDATES</span></div><ol className={styles.orderTimeline}>{sortedEvents.filter(event => event.order_id === selectedOrder.id).map((event, index) => <li key={event.id}><span>{index === 0 ? <Icon name="check" /> : <i />}</span><div><time dateTime={event.created_at}>{date(event.created_at, true)}</time><h4>{event.title}</h4><p>{event.description}</p></div></li>)}</ol><div className={styles.detailActions}><span>Context makes good work better.</span><button className={styles.primaryButton} type="button" onClick={() => setModal({ type: "message", orderId: selectedOrder.id })}>Message about this project<Icon name="messages" /></button></div></div></Modal>}

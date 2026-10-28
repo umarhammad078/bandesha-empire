@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import BrandMark from "@/components/BrandMark";
+import { startProjectHref } from "@/lib/portal";
 
 const NAV_LINKS = [
   { label: "Home", href: "/#hero", pathname: "/" },
@@ -16,10 +17,7 @@ const NAV_LINKS = [
 
 export default function Header() {
   const pathname = usePathname();
-  const projectHref =
-    pathname === "/services" || pathname === "/pricing" || pathname === "/portfolio"
-      ? `${pathname}#start-project`
-      : "/#contact";
+  const projectHref = startProjectHref();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 

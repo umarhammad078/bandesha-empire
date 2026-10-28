@@ -1,6 +1,9 @@
 import AuthPanel from "../AuthPanel";
-import { isPortalConfigured } from "@/lib/portal/server";
+import { isPortalConfigured, redirectSignedInClient } from "@/lib/portal/server";
+import { safeAuthNext } from "@/lib/portal";
 
-export default function SignupPage() {
-  return <AuthPanel key="signup" mode="signup" configured={isPortalConfigured()} previewAvailable={process.env.NODE_ENV === "development"} />;
+export default async function SignupPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
+  const { next } = await searchParams;
+  await redirectSignedInClient(next);
+  return <AuthPanel key="signup" mode="signup" next={safeAuthNext(next)} configured={isPortalConfigured()} previewAvailable={process.env.NODE_ENV === "development"} />;
 }

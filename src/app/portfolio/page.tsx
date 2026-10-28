@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Image from "next/image";
 import SiteFooter from "@/components/SiteFooter";
 import { PROJECTS } from "@/data/projects";
 import { getContactEmailHref } from "@/lib/contact";
+import { startProjectHref } from "@/lib/portal";
 import styles from "./page.module.css";
 
 const DESCRIPTION = "Explore six Bandesha Empire concept builds in detail: AI support, business websites, Shopify commerce, client portals, operations workflows and connected systems.";
@@ -82,7 +84,7 @@ export default function PortfolioPage() {
           <div className={styles.shell}>
             <div className={styles.closingInner}>
               <div><span className={styles.closingLabel}>Your next chapter</span><h2 id="closing-title">Let&apos;s make something<br /><em>worth building.</em></h2><p>Bring the idea, the challenge or the system that needs to work better. We&apos;ll help you find a clear way forward.</p></div>
-              <div className={styles.closingActions}><a href={enquiry("Portfolio enquiry")} className="cta-final-primary"><span>Tell us about your project</span><i><Arrow /></i></a><a href="https://wa.me/923023634078?text=Hello%20Bandesha%20Empire%2C%20I%27d%20like%20to%20discuss%20a%20project%20from%20your%20portfolio." target="_blank" rel="noreferrer" className="cta-final-secondary"><span>Message on WhatsApp</span><i><Arrow /></i></a><small>Start with a conversation. Shape the scope together.</small></div>
+              <div className={styles.closingActions}><Link href={startProjectHref()} className="cta-final-primary"><span>Tell us about your project</span><i><Arrow /></i></Link><a href="https://wa.me/923023634078?text=Hello%20Bandesha%20Empire%2C%20I%27d%20like%20to%20discuss%20a%20project%20from%20your%20portfolio." target="_blank" rel="noreferrer" className="cta-final-secondary"><span>Message on WhatsApp</span><i><Arrow /></i></a><small>Start with a conversation. Shape the scope together.</small></div>
             </div>
             <div className={styles.closingFoot}><span>Considered design. Connected systems.</span><span>Bandesha Empire / Portfolio</span></div>
           </div>

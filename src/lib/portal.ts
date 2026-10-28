@@ -52,8 +52,39 @@ export function money(cents: number) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: cents % 100 === 0 ? 0 : 2, maximumFractionDigits: 2 }).format(cents / 100);
 }
 
-export function safeAuthNext(value: string | null) {
-  return value === "/portal/reset-password" ? value : "/portal";
+export function portalPackage(value: unknown) {
+  return PORTAL_PACKAGES.includes(value as (typeof PORTAL_PACKAGES)[number]) ? String(value) : "growth";
+}
+
+export function startProjectHref(plan?: string) {
+  const params = new URLSearchParams({ view: "orders", action: "new-order" });
+  if (plan) params.set("package", portalPackage(plan));
+  return `/portal?${params}`;
+}
+
+// Rebuild only known workspace destinations. Never redirect to arbitrary URLs,
+// preview routes, nested next parameters, or unknown client-supplied query fields.
+export function safeAuthNext(value: unknown): string {
+  if (value === "/portal/reset-password") return value;
+  if (typeof value !== "string" || value.length > 300 || !/^\/portal(?:\?|$)/.test(value) || /[\\#\s]/.test(value)) return "/portal";
+  const input = new URL(value, "https://portal.invalid").searchParams;
+  const params = new URLSearchParams();
+  const view = portalView(input.get("view"));
+  if (view !== "overview") params.set("view", view);
+  if (input.get("action") === "new-order") {
+    params.set("view", "orders");
+    params.set("action", "new-order");
+    if (input.has("package")) params.set("package", portalPackage(input.get("package")));
+  }
+  return params.size ? `/portal?${params}` : "/portal";
+}
+
+export function portalAuthHref(mode: "login" | "signup" | "forgot-password", next: unknown = "/portal", notice?: string) {
+  const params = new URLSearchParams();
+  const destination = safeAuthNext(next);
+  if (destination !== "/portal") params.set("next", destination);
+  if (notice) params.set("notice", notice);
+  return `/portal/${mode}${params.size ? `?${params}` : ""}`;
 }
 
 export function validateOrder(form: FormData) {

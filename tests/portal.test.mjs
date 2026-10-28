@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { validateOrder, validateUpload, safeAuthNext, portalView, money, orderReference, MAX_FILE_SIZE } from "../src/lib/portal.ts";
+import { validateOrder, validateUpload, safeAuthNext, portalAuthHref, startProjectHref, portalPackage, portalView, money, orderReference, MAX_FILE_SIZE } from "../src/lib/portal.ts";
 
 function brief(overrides = {}) {
   const form = new FormData();
@@ -26,8 +26,23 @@ test("website links cannot use executable or local URL protocols", () => {
 });
 
 test("safe authentication destinations never accept external redirects", () => {
-  for (const input of [null, "https://evil.example", "//evil.example", "/\\evil.example", "/portal/preview", "/admin"]) assert.equal(safeAuthNext(input), "/portal");
+  for (const input of [null, undefined, ["/portal"], "https://evil.example", "//evil.example", "/\\evil.example", "/portal/preview", "/admin", "/portal/../admin", "/portal?view=admin", "/portal?next=https://evil.example", "/portal#//evil.example", "/portal?view=orders\nLocation:evil", "/portal?view=%2F%2Fevil.example"]) assert.equal(safeAuthNext(input), "/portal");
   assert.equal(safeAuthNext("/portal/reset-password"), "/portal/reset-password");
+});
+
+test("login destinations retain only known workspace intent and package choices", () => {
+  assert.equal(safeAuthNext("/portal?view=orders"), "/portal?view=orders");
+  assert.equal(safeAuthNext("/portal?action=new-order&package=starter&admin=true"), "/portal?view=orders&action=new-order&package=starter");
+  assert.equal(safeAuthNext("/portal?view=messages&action=new-order&package=free"), "/portal?view=orders&action=new-order&package=growth");
+  assert.equal(portalPackage("custom"), "custom");
+  assert.equal(portalPackage("unknown"), "growth");
+  assert.equal(startProjectHref("starter"), "/portal?view=orders&action=new-order&package=starter");
+  for (const mode of ["login", "signup", "forgot-password"]) {
+    const link = new URL(portalAuthHref(mode, startProjectHref("custom")), "https://example.com");
+    assert.equal(link.pathname, `/portal/${mode}`);
+    assert.equal(link.searchParams.get("next"), startProjectHref("custom"));
+  }
+  assert.equal(portalAuthHref("login", "//evil.example"), "/portal/login");
 });
 
 test("workspace views are explicitly allowlisted", () => {

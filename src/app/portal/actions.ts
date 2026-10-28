@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { isPortalConfigured, portalOrigin, requirePortalClient } from "@/lib/portal/server";
-import { validateOrder, type ActionResult } from "@/lib/portal";
+import { portalAuthHref, safeAuthNext, validateOrder, type ActionResult } from "@/lib/portal";
 
 const SETUP_MESSAGE = "Client sign-in is being prepared. Please contact the studio for access.";
 const emailValid = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && value.length <= 254;
@@ -16,7 +16,7 @@ export async function signIn(_: ActionResult, form: FormData): Promise<ActionRes
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) return { error: "We couldn't sign you in. Check your details and confirm your email before trying again." };
-  redirect("/portal");
+  redirect(safeAuthNext(form.get("next")));
 }
 
 export async function signUp(_: ActionResult, form: FormData): Promise<ActionResult> {
@@ -27,17 +27,20 @@ export async function signUp(_: ActionResult, form: FormData): Promise<ActionRes
   if (!emailValid(email)) return { error: "Please enter a valid email address." };
   if (password.length < 10 || password.length > 256) return { error: "Choose a password with at least 10 characters." };
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { full_name: fullName }, emailRedirectTo: `${portalOrigin()}/auth/callback` } });
+  const next = safeAuthNext(form.get("next"));
+  const emailRedirectTo = `${portalOrigin()}/auth/confirm?next=${encodeURIComponent(next)}`;
+  const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { full_name: fullName }, emailRedirectTo } });
   if (error) return { error: "We couldn't create your account. Please try again, or sign in if you already have one." };
-  if (data.session) redirect("/portal");
+  if (data.session) redirect(next);
   return { success: "Check your inbox for the confirmation link. Once your email is confirmed, you can enter your workspace." };
 }
 
-export async function googleSignIn(): Promise<void> {
-  if (!isPortalConfigured()) redirect("/portal/login?notice=setup");
+export async function googleSignIn(form: FormData): Promise<void> {
+  const next = safeAuthNext(form.get("next"));
+  if (!isPortalConfigured()) redirect(portalAuthHref("login", next, "setup"));
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: `${portalOrigin()}/auth/callback`, scopes: "email profile", queryParams: { prompt: "select_account" } } });
-  if (error || !data.url) redirect("/portal/login?notice=google");
+  const { data, error } = await supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: `${portalOrigin()}/auth/callback?next=${encodeURIComponent(next)}`, scopes: "email profile", queryParams: { prompt: "select_account" } } });
+  if (error || !data.url) redirect(portalAuthHref("login", next, "google"));
   redirect(data.url);
 }
 
@@ -46,7 +49,7 @@ export async function forgotPassword(_: ActionResult, form: FormData): Promise<A
   const email = String(form.get("email") ?? "").trim();
   if (!emailValid(email)) return { error: "Please enter a valid email address." };
   const supabase = await createClient();
-  const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${portalOrigin()}/auth/callback?next=/portal/reset-password` });
+  const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${portalOrigin()}/auth/confirm?next=${encodeURIComponent("/portal/reset-password")}` });
   if (error) return { error: "We couldn't request a reset link right now. Please try again in a moment." };
   // A generic message prevents email-address enumeration.
   return { success: "If an account exists for this email, you'll receive a password reset link shortly. Check your spam folder too." };

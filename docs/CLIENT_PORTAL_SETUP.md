@@ -2,7 +2,7 @@
 
 ## Current state
 
-The portal UI and Supabase integration code are implemented locally. The owner confirmed on 27 October 2026 that the live Supabase/Google setup is not ready. Live authentication and database operations have **not** been verified or activated. Do not advertise the portal as live until the setup and two-account access tests below pass.
+The portal UI and Supabase integration code are implemented. On 28 October 2026, the private portal database was provisioned with the owner's approval and its access settings verified. Production authentication is **not activated**: Google OAuth and a verified custom SMTP sender still need setup, followed by real two-account tests. Do not advertise working live login until those checks pass.
 
 - `/portal/login` — email/password sign-in and Google sign-in.
 - `/portal/signup` — registration and email confirmation.
@@ -12,7 +12,38 @@ The portal UI and Supabase integration code are implemented locally. The owner c
 - `/portal/preview` — **development-only** interactive design preview, clearly labelled with fictional data. Not an authentication bypass; it never loads real client records. It returns 404 in production. Preview edits are session-only and are not sent or charged.
 - `/portal/preview?state=empty` — the same preview as a brand-new client with no projects, invoices, files or messages yet.
 
-The homepage Login / View My Project buttons and shared navigation link to the portal. The workspace has its own navigation instead of the marketing header.
+The homepage Login / View My Project buttons and shared navigation link to the portal. Every shared-header Start a project button, the homepage/about project CTAs, the services hero, portfolio closing CTA and pricing package/closing CTAs now enter the protected workspace flow. Explicit email/WhatsApp enquiries remain contact links.
+
+Signed-out visitors see sign-in/create-account first. After authentication, their destination is retained: View My Project opens Orders, and Start a project opens the brief wizard. Pricing package selection is retained. Opening the wizard does not submit an order or take a payment. Already authenticated clients bypass repeat login. The workspace has its own navigation instead of the marketing header.
+
+## Owner's quick start (Roman Urdu)
+
+1. [Supabase dashboard](https://supabase.com/dashboard) par apne account se sign in karein. Account password khud enter karein, chat mein share na karein.
+2. Apni organization mein project banayein/select karein. Project ka naam `Bandesha Empire` rakh sakte hain. Database password apne password manager mein save karein. Region aur plan dashboard par dekh kar choose karein; koi paid upgrade zaroori samajh kar na karein.
+3. Project ready hone par **Connect / API settings** se Project URL aur public publishable key lein. Neeche diye huay names se `.env.local` mein set karein. `PORTAL_ENABLED=false` abhi rehne dein.
+4. Neeche section 2 ki SQL migration run karein, phir section 3 mein email provider/SMTP aur section 4 mein Google sign-in configure karein. Google client secret sirf Supabase ke Google settings mein paste karein.
+5. `npm run portal:check` se missing settings check karein. Ye read-only check hai: account nahi banata, email nahi bhejta aur keys print nahi karta. SMTP delivery, database permissions aur real account login alag test karna zaroori hai.
+6. Setup complete ho to `PORTAL_ENABLED=true` karein aur local website restart karein. Hosting par bhi variables set karke naya deployment chahiye. Pehle do test accounts se login aur private orders verify karein, phir clients ko invite karein.
+
+**Current blockers:** Google Cloud requires the owner to enable two-step verification before OAuth configuration can continue. Production email sending is not configured. Supabase is now reachable; the launch gate remains off while these requirements are completed.
+
+### Live provisioning checkpoint — 28 October 2026
+
+- Latest local verification: all 38 automated checks, TypeScript and the production build passed. These provider-mocked/database-emulated checks do not certify live authentication.
+- The existing Supabase project was healthy. The migration above was applied through SQL Editor after explicit owner approval; do not apply it again.
+- All six portal tables have row-level security enabled, no anonymous SELECT privileges, and 12 public-schema access policies. Authenticated clients cannot set order prices.
+- The `portal-files` bucket is private with a 10 MB upload limit.
+- Email sign-in, signup and email confirmation are enabled. Google sign-in remains disabled until its credentials are configured.
+- The Supabase Site URL is `https://www.bandeshaempire.com`; the six explicit redirect patterns listed below were saved.
+- Vercel already had the public Supabase connection variables. Production `NEXT_PUBLIC_SITE_URL` was set to the canonical www origin and `PORTAL_ENABLED=false` was saved.
+- Real Google/email sign-in, email delivery, cross-account isolation over HTTP and private file transfers still need end-to-end verification. SQL policy checks and mocked tests are not substitutes.
+
+### Remaining owner steps (Roman Urdu)
+
+1. Google Cloud mein **Turn on 2-step verification** kholein. Password sirf Google par enter karein; phone prompt ya Authenticator setup complete karke **Turn on** karein. OTP/recovery codes chat mein share na karein. Phir Cloud page refresh karein.
+2. Resend account is signed in, but no domains are configured yet. Domain verification ke liye Resend ke diye huay DNS records domain provider mein add karne honge. Existing MX records ko replace na karein. Paid upgrade abhi zaroori nahi.
+3. Verified sender aur sending-only API key ready hone par Supabase custom SMTP configure karein: host `smtp.resend.com`, port `465`, username `resend`, password sending API key. Key sirf provider settings mein enter karein, Git ya chat mein nahi.
+4. Google OAuth configure karke confirmation/reset templates aur real test accounts verify karein; tab production gate enable karke redeploy karein.
 
 ## 1. Create or select your Supabase project
 
@@ -27,7 +58,7 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 PORTAL_ENABLED=false
 ```
 
-For production, set `NEXT_PUBLIC_SITE_URL=https://bandeshaempire.com` (or the exact canonical origin that serves the deployed website). Redirect any www/alternate domain to this same origin. OAuth cookies must return to the origin where the login was started.
+For production, set `NEXT_PUBLIC_SITE_URL=https://www.bandeshaempire.com`. The live website was observed redirecting to this www origin on 27 October 2026. Keep alternate-domain redirects pointed to this same origin. OAuth cookies must return to the origin where the login was started; do not configure callbacks on the non-www domain while the live site redirects to www.
 
 `PORTAL_ENABLED` is a **server-only launch gate**. Keep it false until the database and auth configuration are complete. It is not a substitute for RLS, and does not revoke access for previously authenticated Supabase clients. Never expose a service-role or secret key through a `NEXT_PUBLIC_` variable.
 
@@ -62,25 +93,31 @@ In Supabase Authentication:
 
 ```text
 http://localhost:3000/auth/callback
-http://localhost:3000/auth/callback?next=/portal/reset-password
-https://bandeshaempire.com/auth/callback
-https://bandeshaempire.com/auth/callback?next=/portal/reset-password
+http://localhost:3000/auth/callback?next=**
+http://localhost:3000/auth/confirm?next=**
+https://www.bandeshaempire.com/auth/callback
+https://www.bandeshaempire.com/auth/callback?next=**
+https://www.bandeshaempire.com/auth/confirm?next=**
 ```
+
+These patterns allow the encoded destination query only on the two authentication endpoints of your exact trusted origins. Do not allow arbitrary domains or a site-wide wildcard. The application independently reconstructs an allowlisted workspace destination and rejects external, preview and administrative destinations. Replace the production origin if your canonical domain differs.
 
 5. Configure your own SMTP sender and verify the sending domain before opening registration to clients. Supabase's built-in mail service is not a production delivery setup. Check current sender/rate restrictions in the dashboard.
 6. Set the confirmation email template link to:
 
 ```html
-<a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email">Confirm your email</a>
+<a href="{{ .RedirectTo }}&amp;token_hash={{ .TokenHash }}&amp;type=email">Confirm your email</a>
 ```
 
 Set the password recovery template link to:
 
 ```html
-<a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=recovery">Reset your password</a>
+<a href="{{ .RedirectTo }}&amp;token_hash={{ .TokenHash }}&amp;type=recovery">Reset your password</a>
 ```
 
-For local email-flow testing, temporarily use localhost as the Supabase Site URL or a separate development project, since these templates use `.SiteURL`. Restore the production Site URL before launch. Do not disable verification just to make a demo appear functional.
+The app supplies `.RedirectTo` as the trusted website origin plus `/auth/confirm?next=...`. Do not substitute an arbitrary client-supplied URL. The token-hash handler creates the authenticated session, including when a confirmation is opened on another device, and retains the chosen workspace destination. Recovery always goes to the password-reset page. These templates must be used with this app's signup/recovery actions, which always supply the query-bearing redirect URL; if sending dashboard-generated emails, supply an equivalent redirect URL. Keep the production Site URL canonical. Use a separate development project when practical. Do not disable verification just to make a demo appear functional.
+
+The confirmation endpoint also accepts the PKCE `code` returned by Supabase's default email templates. This flow requires the browser that initiated signup/recovery; the custom token-hash templates above support opening the email on another device.
 
 ## 4. Enable Google sign-in
 
@@ -100,12 +137,15 @@ Set `PORTAL_ENABLED=true`, restart local development and rebuild/redeploy the we
 Run local checks:
 
 ```bash
-node --test tests/contact.test.mjs tests/portal.test.mjs tests/portal-database.test.mjs
+npm run portal:check
+npm run test:portal
 npx tsc --noEmit
 npm run build
 ```
 
 The database test uses an in-memory PostgreSQL engine (PGlite) and the actual migration to check grants, RLS, cross-client foreign keys, triggers and file-isolation rules. It mocks the Supabase-owned `auth` and `storage` schemas; it does not replace real provider/SMTP/Storage HTTP testing.
+
+The auth tests run the actual server actions and callback handlers against a mocked identity provider: email sign-in/signup, Google start/callback/failure, confirmation/recovery, verified-user redirects and safe return destinations. They make no real external requests and do not prove that Google Cloud or SMTP has been configured. The setup checker reads only public Auth settings; it does not verify database migrations or deliverability.
 
 Next.js and its matching ESLint configuration were updated to 16.4.3 as part of the portal security baseline. Compatible dependency fixes were applied; the local dependency audit reported zero known vulnerabilities at the time of verification. This is not a guarantee against all security issues or future advisories.
 
@@ -113,6 +153,10 @@ Then use **two disposable test accounts you control**, A and B, to verify in the
 
 1. Email signup → confirmation → sign-in → sign-out → password reset.
 2. Google signup/sign-in and returning sessions after a refresh.
+   - Start from each marketing page's Start a project CTA and confirm the new-order wizard appears only after authentication.
+   - Start from each pricing package, change between sign-in/create-account, then sign in using Google or verify the signup email. Confirm the selected package survives.
+   - Use View My Project to reach Orders. A signed-in client clicking Login should return directly to the workspace.
+   - Cancel Google consent or use an expired confirmation link: show a useful notice, never a fake successful login or an external redirect.
 3. Signed-out users cannot load `/portal` or perform any workspace action.
 4. A submits a brief; refreshing preserves the order and creates its initial event. A double submission does not duplicate it.
 5. B cannot read A's orders, messages, invoice rows, profile or files, even through direct Supabase requests with known record IDs.
@@ -143,6 +187,7 @@ The initial UI fetches the latest 100 orders/invoices/files and 200 messages/eve
 - [Google sign-in configuration](https://supabase.com/docs/guides/auth/social-sign-in/auth-google)
 - [Row-level security and database grants](https://supabase.com/docs/guides/database/postgres/row-level-security)
 - [Supabase custom SMTP](https://supabase.com/docs/guides/auth/auth-smtp)
+- [Resend with Supabase SMTP](https://resend.com/docs/send-with-supabase-smtp)
 
 ## Local verification — 27 October 2026
 
@@ -154,3 +199,17 @@ The initial UI fetches the latest 100 orders/invoices/files and 200 messages/eve
 - Dependency audit reported zero known vulnerabilities. The database/browser tests use fictional local data; real Supabase OAuth, SMTP delivery, persistent client sessions and Storage HTTP flows still require the live setup above.
 
 No production credentials, live customer accounts, database migrations or external provider settings were changed as part of the local design implementation.
+
+### Authentication entry-flow follow-up
+
+- 35 automated tests passed, now including the actual authentication actions/callbacks executed with a mocked provider.
+- TypeScript checks and the production build passed after the navigation changes.
+- Browser-checked all five marketing pages' Start a project links, Starter package → sign-in → create-account destination retention, Orders redirect, and selected-package opening in the development preview. Dismissing and refreshing did not reopen the wizard or create an order. No browser console errors were observed during these checks.
+- `npm run portal:check` correctly reported the unreachable Supabase project, missing site origin and disabled launch gate. These are unresolved setup blockers, not a successful live authentication test.
+- `.env.example` contains placeholder names only. Local secrets and activation state were not changed. The Sites local-checkout workflow was used without changing the website's branding, hosting or audience.
+
+### Deployment access check
+
+- GitHub confirms that commit `0109f96` was successfully deployed to Vercel Production.
+- The live `/portal/login` page was opened successfully in the browser after Vercel's automatic browser verification. It shows the setup notice and disabled email/Google submit buttons. A terminal HTTP check was blocked by the Vercel checkpoint and was not treated as evidence of website downtime.
+- Vercel and Supabase dashboard sessions both require owner sign-in. No live account, project, authentication settings, domain settings or billing changes were made. Account connections are required before live provisioning and activation can continue.

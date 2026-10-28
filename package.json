@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "portal:check": "node scripts/check-portal-setup.mjs",
+    "test:portal": "node --experimental-vm-modules --test tests/contact.test.mjs tests/portal.test.mjs tests/portal-auth.test.mjs tests/portal-database.test.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.3",

@@ -1,5 +1,6 @@
 import { SERVICES } from "./content";
 import styles from "./hero.module.css";
+import { startProjectHref } from "@/lib/portal";
 
 const LABELS: Record<string, [string, string]> = {
   websites: ["Websites &", "experiences"],
@@ -52,7 +53,7 @@ export default function ServicesHero() {
             Everything your digital business needs, working in one direction.
           </p>
           <div className={styles.actions}>
-            <a className={styles.primary} href="#start-project">
+            <a className={styles.primary} href={startProjectHref()}>
               Plan your next move <Arrow />
             </a>
             <a className={styles.secondary} href="#capabilities">

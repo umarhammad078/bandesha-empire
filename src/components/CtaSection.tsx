@@ -1,4 +1,5 @@
 import Reveal from "@/components/Reveal";
+import { startProjectHref } from "@/lib/portal";
 
 function ArrowIcon() {
   return (
@@ -43,7 +44,7 @@ export default function CtaSection() {
             </p>
 
             <div className="cta-final-actions">
-              <a href="#contact" className="cta-final-primary">
+              <a href={startProjectHref()} className="cta-final-primary">
                 <span>Start a project</span>
                 <i aria-hidden="true">
                   <ArrowIcon />

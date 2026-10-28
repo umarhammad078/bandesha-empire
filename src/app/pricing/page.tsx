@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SiteFooter from "@/components/SiteFooter";
 import { getContactEmailHref } from "@/lib/contact";
+import { startProjectHref } from "@/lib/portal";
 import {
   ADD_ONS,
   COMPARISON_ROWS,
@@ -103,7 +104,7 @@ export default function PricingPage() {
                   <div className={styles.planRule} />
                   <p className={styles.featuresLabel}>{plan.id === "custom" ? "Shaped around your needs" : "Your project includes"}</p>
                   <ul className={styles.features}>{plan.features.map((feature) => <li key={feature}><Check /><span>{feature}</span></li>)}</ul>
-                  <a href={enquiryHref(`Let's discuss the ${plan.name} package`)} className={styles.planButton}>{plan.cta}<Arrow diagonal /></a>
+                  <Link href={startProjectHref(plan.id === "popular" ? "growth" : plan.id)} className={styles.planButton}>{plan.cta}<Arrow diagonal /></Link>
                 </article>
               ))}
             </div>
@@ -172,7 +173,7 @@ export default function PricingPage() {
         <section id="start-project" className={styles.closing} aria-labelledby="pricing-closing-title">
           <div className={`${styles.shell} ${styles.closingInner}`}>
             <div className={styles.closingCopy}><h2 id="pricing-closing-title">Your next move.<br /><em>Let&apos;s make it count.</em></h2><p>Tell us what you&apos;re building, where you are now and what success looks like. We&apos;ll help define a sensible scope and a clear investment.</p></div>
-            <div className={styles.closingActions}><span>Start with a conversation</span><a href={EMAIL} className={`${styles.closingPrimary} ${styles.ctaHover}`}><span>Let&apos;s talk about your project</span><i aria-hidden="true"><Arrow diagonal /></i></a><a href={WHATSAPP} target="_blank" rel="noreferrer" className={`${styles.closingSecondary} ${styles.ctaHover} ${styles.ctaHoverSecondary}`}><span>Message on WhatsApp</span><i aria-hidden="true"><Arrow diagonal /></i></a><small>No package chosen? That&apos;s a good place to start, too.</small></div>
+            <div className={styles.closingActions}><span>Start with a conversation</span><Link href={startProjectHref()} className={`${styles.closingPrimary} ${styles.ctaHover}`}><span>Let&apos;s talk about your project</span><i aria-hidden="true"><Arrow diagonal /></i></Link><a href={WHATSAPP} target="_blank" rel="noreferrer" className={`${styles.closingSecondary} ${styles.ctaHover} ${styles.ctaHoverSecondary}`}><span>Message on WhatsApp</span><i aria-hidden="true"><Arrow diagonal /></i></a><small>No package chosen? That&apos;s a good place to start, too.</small></div>
           </div>
           <div className={`${styles.shell} ${styles.closingBottom}`}><span>Clear scope. Considered work. Yours to build on.</span><span>Bandesha Empire / Pricing</span></div>
         </section>

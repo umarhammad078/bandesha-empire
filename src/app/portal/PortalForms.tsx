@@ -1,16 +1,16 @@
 "use client";
 
 import { useRef, useState, type FormEvent } from "react";
-import { PORTAL_SERVICES, validateOrder, validateUpload, type ActionResult, type PortalOrder, type PortalProfile } from "@/lib/portal";
+import { PORTAL_SERVICES, portalPackage, validateOrder, validateUpload, type ActionResult, type PortalOrder, type PortalProfile } from "@/lib/portal";
 import Icon from "./PortalIcons";
 import styles from "./portal.module.css";
 
 type Submit = (form: FormData) => Promise<ActionResult>;
 const formError = "Something didn't go through. Your details are still here; please try again.";
 
-export function NewOrderForm({ onSubmit, preview }: { onSubmit: Submit; preview: boolean }) {
+export function NewOrderForm({ onSubmit, preview, initialPackage }: { onSubmit: Submit; preview: boolean; initialPackage?: string }) {
   const [step, setStep] = useState(1);
-  const [plan, setPlan] = useState("growth");
+  const [plan, setPlan] = useState(() => portalPackage(initialPackage));
   const [fields, setFields] = useState({ title: "", service: "Website & Experience", brief: "", timeline: "Within 4 weeks", budget: "Let's define the scope", website_url: "" });
   const [requestId] = useState(() => crypto.randomUUID());
   const [pending, setPending] = useState(false), [error, setError] = useState("");

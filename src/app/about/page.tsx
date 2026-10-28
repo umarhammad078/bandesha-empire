@@ -4,6 +4,7 @@ import AboutWorldReachMap from "@/components/AboutWorldReachMap";
 import Reveal from "@/components/Reveal";
 import SiteFooter from "@/components/SiteFooter";
 import { getContactEmailHref } from "@/lib/contact";
+import { startProjectHref } from "@/lib/portal";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -477,7 +478,7 @@ export default function AboutPage() {
             </div>
 
             <div className="about-invitation-actions rv-up rv-d1">
-              <Link href="/#contact" className="cta-final-primary about-invitation-action">
+              <Link href={startProjectHref()} className="cta-final-primary about-invitation-action">
                 <span>Start a project</span>
                 <i aria-hidden="true">
                   <svg viewBox="0 0 18 18" fill="none">
